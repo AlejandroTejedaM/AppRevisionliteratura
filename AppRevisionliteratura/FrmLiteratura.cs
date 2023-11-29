@@ -44,8 +44,21 @@ namespace AppRevisionliteratura
             Pronombres = new string[] { "yo", "tú", "él", "ella","ellos","ellas", "nosotros", "vosotros", "ellos", "ellas", "ustedes",
             "este", "ese", "aquel", "estos", "esos", "aquellos", "esta", "esa", "aquella", "estas", "esas", "aquellas", "esto", "eso", "aquello"};
 
-            Conjunciones = new string[] { "y", "e", "ni", "tanto", "como", "ni", "igual", "que" };
+            Conjunciones = new string[] {
+                // Coordinantes
+                "y", "e", "ni", "tanto como", "así como",
+                "pero", "mas", "sino", "aunque",
+                "o", "u", "bien bien", "ya ya",
+                "ora ora", "sea sea",
 
+                // Subordinantes
+                "que", "si", "como",
+                "siempre que", "porque", "pues", "ya que",
+                "que", "luego", "así que", "de modo que",
+                "aunque", "si bien", "aun cuando",
+                "cuando", "mientras", "antes de que", "después de que",
+                "que", "como", "más que", "menos que",
+                "para que", "a fin de que", "con el fin de que"};
             richTextBox1.KeyDown += RichTextBox1_KeyDown;
         }
 
@@ -53,10 +66,14 @@ namespace AppRevisionliteratura
         {
             if (e.KeyCode == Keys.Enter)
             {
-                // Aquí puedes poner el código que quieres que se ejecute cuando se presiona Enter
                 MessageBox.Show("Presionaste Enter.");
             }
 
+        }
+
+        private void llenarTextlistPalabras()
+        {
+            listBox1.DataSource = "";
         }
 
         private void richTextBox1_Enter(object sender, EventArgs e)
