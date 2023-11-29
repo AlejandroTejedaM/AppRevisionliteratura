@@ -30,6 +30,14 @@ namespace AppRevisionliteratura
             "tranquilo", "nostálgico", "romántico", "pastoral", "divertida", "caricaturesca", "festivo", "vibrante",
             "animado", "sereno", "jubiloso", "acogedor", "exuberante", "armonioso", "resplandeciente", "sugestivo",
             "radiante", "plácido", "sosegado", "risueño", "paradisíaco" };
+
+        }
+        private void separarTexto(String texto)
+        {
+            string [] palabras = texto.Split("\\s");
+
         }
     }
+ 
+
 }
