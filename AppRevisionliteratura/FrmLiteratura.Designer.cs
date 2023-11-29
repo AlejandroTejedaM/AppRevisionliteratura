@@ -36,7 +36,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1001, 519);
             Name = "FrmLiteratura";
-            Text = "Caperucita Rojaa";
+            Text = "Caperucita Roja";
             ResumeLayout(false);
         }
 
