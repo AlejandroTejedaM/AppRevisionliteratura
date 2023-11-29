@@ -36,30 +36,5 @@ namespace AppRevisionliteratura
             "animado", "sereno", "jubiloso", "acogedor", "exuberante", "armonioso", "resplandeciente", "sugestivo",
             "radiante", "plácido", "sosegado", "risueño", "paradisíaco" };
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string palabra = txtPalabra.Text.ToLower();
-            if (Abverbios.Contains(palabra))
-            {
-                MessageBox.Show("La palabra es un adverbio.");
-            }
-            else if (Verbos.Contains(palabra))
-            {
-                MessageBox.Show("La palabra es un verbo.");
-            }
-            else if (Sustantivos.Contains(palabra))
-            {
-                MessageBox.Show("La palabra es un sustantivo.");
-            }
-            else if (Adjetivos.Contains(palabra))
-            {
-                MessageBox.Show("La palabra es un adjetivo.");
-            }
-            else
-            {
-                MessageBox.Show("La palabra no es ni adverbio, ni verbo, ni sustantivo, ni adjetivo.");
-            }
-        }
     }
 }
