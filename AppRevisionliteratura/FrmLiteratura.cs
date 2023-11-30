@@ -6,15 +6,16 @@ namespace AppRevisionliteratura
 {
     public partial class FrmLiteratura : Form
     {
-        String[] Sustantivos;
-        String[] Adverbios;
-        String[] Verbos;
-        String[] Adjetivos;
-        String[] Pronombres;
-        String[] Articulos;
-        String[] Conjunciones;
+        string[] Sustantivos;
+        string[] Adverbios;
+        string[] Verbos;
+        string[] Adjetivos;
+        string[] Pronombres;
+        string[] Articulos;
+        string[] Conjunciones;
+        List<string> componentesOraciones = new List<string>();
 
-        String[] listaSeparada;
+        string[] listaSeparada;
         string cadena;
         public FrmLiteratura()
         {
@@ -29,7 +30,7 @@ namespace AppRevisionliteratura
             "bien", "ya que", "por lo tanto", "entonces", "así que",
             "por eso", "porque", "pues", "aunque", "si bien",
             "mientras que", "antes", "después", "además", "incluso",
-            "además de", "a pesar de", "con tal de que", "para que" };
+            "además de", "a pesar de", "con tal de que", "para que","en"};
 
             Sustantivos = new string[] { "abuelita", "caperucita", "lobo", "leñador", "bosque", "cabaña",
             "capa", "canasta", "camino", "flores", "árboles", "ramas", "ojos", "orejas",
@@ -40,14 +41,14 @@ namespace AppRevisionliteratura
             "pacífico", "pintoresco", "rural", "idílico", "agradable", "encantador", "bucólico", "relajante",
             "tranquilo", "nostálgico", "romántico", "pastoral", "divertida", "caricaturesca", "festivo", "vibrante",
             "animado", "sereno", "jubiloso", "acogedor", "exuberante", "armonioso", "resplandeciente", "sugestivo",
-            "radiante", "plácido", "sosegado", "risueño", "paradisíaco" };
+            "radiante", "plácido", "sosegado", "risueño", "paradisíaco","feroz","valiente","asustando","asustadas", "mucho", "muchas","poco","poquito"};
 
             Adverbios = new string[] { "rápidamente", "sigilosamente", "astutamente",
             "dulcemente", "cautamente", "gentilmente", "bruscamente", "hábilmente",
             "furiosamente", "ingenuamente","temprano", "pronto", "nunca", "siempre",
             "lentamente", "velozmente", "despacio", "urgentemente", "sorpresivamente",
             "furtivamente","lejos", "profundamente", "aquí", "allí", "cerca",
-            "adentro", "afuera", "mansamente", "tiernamente", "furtivamente" };
+            "adentro", "afuera", "mansamente", "tiernamente", "furtivamente","tranquilamente","tiene"};
 
             Verbos = new string[] { "ir", "encontrar", "hablar", "comer", "llegar", "abrir",
              "correr", "salvar", "asustar", "ver", "vestir", "dormir", "engañar",
@@ -89,7 +90,7 @@ namespace AppRevisionliteratura
         }
         private bool EsAdverbio(String cadena)
         {
-            return Adjetivos.Contains(cadena.ToLower());
+            return Adverbios.Contains(cadena.ToLower());
         }
         private bool EsVerbo(String cadena)
         {
@@ -110,11 +111,11 @@ namespace AppRevisionliteratura
                 MessageBox.Show("Porfavor introduzca un texto a comprobar");
                 return;
             }
-            listaSeparada = cadena.Split(' ');
+            listaSeparada = cadena.Split(' ',';','.');
             List<string> listaCadenasTipo = new List<string>();
             foreach (string palabra in listaSeparada)
             {
-                if (Articulos.Contains(palabra) == true)
+                if (EsArticulo(palabra) == true)
                 {
                     string cadenaActual = "Palabra reservada: " + palabra + " (Artículo)";
                     listaCadenasTipo.Add(cadenaActual);
