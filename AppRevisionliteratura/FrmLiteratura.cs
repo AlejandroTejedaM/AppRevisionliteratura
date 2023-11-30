@@ -23,8 +23,13 @@ namespace AppRevisionliteratura
 
             Pronombres = new string[] { "yo", "tú", "él", "ella","ellos","ellas", "nosotros", "vosotros", "ellos", "ellas", "ustedes",
             "este", "ese", "aquel", "estos", "esos", "aquellos", "esta", "esa", "aquella", "estas", "esas", "aquellas", "esto", "eso", "aquello"};
-            
-            Conjunciones = new string[] { "y", "e", "ni", "tanto", "como", "ni", "igual", "que" };
+
+            Conjunciones = new string[] { "y", "e", "ni", "tanto", "como", "ni", "igual", "que",
+            "pero", "sin embargo", "no obstante", "sino", "o", "u",
+            "bien", "ya que", "por lo tanto", "entonces", "así que",
+            "por eso", "porque", "pues", "aunque", "si bien",
+            "mientras que", "antes", "después", "además", "incluso",
+            "además de", "a pesar de", "con tal de que", "para que" };
 
             Sustantivos = new string[] { "abuelita", "caperucita", "lobo", "leñador", "bosque", "cabaña",
             "capa", "canasta", "camino", "flores", "árboles", "ramas", "ojos", "orejas",
@@ -100,6 +105,11 @@ namespace AppRevisionliteratura
 
         private void ComprobarTipoPalabraReservada()
         {
+            if (string.IsNullOrWhiteSpace(cadena))
+            {
+                MessageBox.Show("Porfavor introduzca un texto a comprobar");
+                return;
+            }
             listaSeparada = cadena.Split(' ');
             List<string> listaCadenasTipo = new List<string>();
             foreach (string palabra in listaSeparada)
