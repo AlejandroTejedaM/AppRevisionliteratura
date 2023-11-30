@@ -160,44 +160,43 @@ namespace AppRevisionliteratura
 
         private void SepararOraciones()
         {
-            // Split the string into sentences
+            // Se divide el texto entrante en oraciones
             string[] oraciones = cadena.Split(';', '.');
 
-            // Create a new list to store the sentences
+            // Crea una lista para las oraciones con la primera letra mayuscula
             List<string> listaOracionesMayus = new List<string>();
 
-            // Loop through each sentence
+            // Se recorre cada oracion
             foreach (string oracion in oraciones)
             {
-                // Remove leading and trailing spaces
+                // Se remueven espacios al inicio y final
                 string oracionTrimmed = oracion.Trim();
 
-                // Split the sentence into words
+                // Se divide la oracion en palabras
                 string[] words = oracionTrimmed.Split(' ',',');
 
-                // Check if the first word is a conjunction
+                // Se verifica si la primera palabra es de conjunción
                 if (EsConjuncion(words[0]) == true)
                 {
-                    // If the first word is a conjunction, remove it and the following comma
-                    string oracionWithoutConjunction = oracionTrimmed.Substring(words[0].Length + 1).Trim();
+                    //Se remueve la palabra de conjuncion y se elimina la coma.
+                    string oracionSinConjuncion = oracionTrimmed.Substring(words[0].Length + 1).Trim();
 
-                    // Capitalize the first letter of the sentence
-                    string oracionCapitalized = char.ToUpper(oracionWithoutConjunction[0]) + oracionWithoutConjunction.Substring(1);
+                    //Se coloca en mayuscula la primera letra
+                    string oracionMayus = char.ToUpper(oracionSinConjuncion[0]) + oracionSinConjuncion.Substring(1);
 
-                    // Add the sentence to the list
-                    listaOracionesMayus.Add(oracionCapitalized);
+                    //Añade oracion a la lista
+                    listaOracionesMayus.Add(oracionMayus);
                 }
                 else
                 {
-                    // If the first word is not a conjunction, capitalize the first letter of the sentence
-                    string oracionCapitalized = char.ToUpper(oracionTrimmed[0]) + oracionTrimmed.Substring(1);
+                    //Se coloca en mayuscula la primera letra
+                    string oracionMayus = char.ToUpper(oracionTrimmed[0]) + oracionTrimmed.Substring(1);
 
-                    // Add the sentence to the list
-                    listaOracionesMayus.Add(oracionCapitalized);
+                    //Añade oracion a la lista
+                    listaOracionesMayus.Add(oracionMayus);
                 }
             }
 
-            // Set the DataSource of the list to the list of sentences
             listaOraciones.DataSource = listaOracionesMayus;
         }
 
