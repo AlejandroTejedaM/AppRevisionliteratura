@@ -36,13 +36,13 @@ namespace AppRevisionliteratura
             Sustantivos = new string[] { "abuelita", "caperucita", "lobo", "leñador", "bosque", "cabaña",
             "capa", "canasta", "camino", "flores", "árboles", "ramas", "ojos", "orejas",
             "dientes", "colmillos", "garras", "ventana", "cama", "silla", "sendero",
-            "picnic", "pasto", "patas", "nariz", "sol", "nubes", "hacha", "chimenea", "niña"};
+            "picnic", "pasto", "patas", "nariz", "sol", "nubes", "hacha", "chimenea", "niña", "casa", "pinos",              "lago","gorro","moño", "cobija", "mallas", "babero", "mandil", "mantel", "arbustos", "tejado", "puerta",            "cielo"};
 
             Adjetivos = new string[] { "colorido", "caprichoso", "infantil", "juguetón", "alegre", "soleado",
             "pacífico", "pintoresco", "rural", "idílico", "agradable", "encantador", "bucólico", "relajante",
             "tranquilo", "nostálgico", "romántico", "pastoral", "divertida", "caricaturesca", "festivo", "vibrante",
             "animado", "sereno", "jubiloso", "acogedor", "exuberante", "armonioso", "resplandeciente", "sugestivo",
-            "radiante", "plácido", "sosegado", "risueño", "paradisíaco","feroz","valiente","asustando","asustadas", "mucho", "muchas","poco","poquito"};
+            "radiante", "plácido", "sosegado", "risueño", "paradisíaco","feroz","valiente","asustando","asustadas",             "mucho", "muchas","poco","poquito", "azul"};
 
             Adverbios = new string[] { "rápidamente", "sigilosamente", "astutamente",
             "dulcemente", "cautamente", "gentilmente", "bruscamente", "hábilmente",
@@ -173,13 +173,13 @@ namespace AppRevisionliteratura
                 string oracionTrimmed = oracion.Trim();
 
                 // Se divide la oracion en palabras
-                string[] words = oracionTrimmed.Split(' ',',');
+                string[] palabras = oracionTrimmed.Split(' ', ',');
 
                 // Se verifica si la primera palabra es de conjunción
-                if (EsConjuncion(words[0]) == true)
+                if (EsConjuncion(palabras[0]) == true)
                 {
                     //Se remueve la palabra de conjuncion y se elimina la coma.
-                    string oracionSinConjuncion = oracionTrimmed.Substring(words[0].Length + 1).Trim();
+                    string oracionSinConjuncion = oracionTrimmed.Substring(palabras[0].Length + 1).Trim();
 
                     //Se coloca en mayuscula la primera letra
                     string oracionMayus = char.ToUpper(oracionSinConjuncion[0]) + oracionSinConjuncion.Substring(1);
