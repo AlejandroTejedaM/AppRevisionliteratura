@@ -14,6 +14,8 @@ namespace AppRevisionliteratura
         string[] Articulos;
         string[] Conjunciones;
         List<string> componentesOraciones = new List<string>();
+        List<string> listaOracionesMayus;
+        List<List<Token>> listComponentesLexicos;
         string[] oraciones;
 
         string[] listaSeparada;
@@ -66,6 +68,7 @@ namespace AppRevisionliteratura
                 cadena = richTextBox1.Text;
                 ComprobarTipoPalabraReservada();
                 SepararOraciones();
+                ConversionOracionesComponentesLexicos();
             }
         }
 
@@ -105,6 +108,7 @@ namespace AppRevisionliteratura
             cadena = richTextBox1.Text;
             ComprobarTipoPalabraReservada();
             SepararOraciones();
+            ConversionOracionesComponentesLexicos();
         }
 
         private void ComprobarTipoPalabraReservada()
@@ -116,12 +120,15 @@ namespace AppRevisionliteratura
             }
             listaSeparada = cadena.Split(' ', ';', '.');
             List<string> listaCadenasTipo = new List<string>();
+            //token token token 
+            //token token token token
             foreach (string palabra in listaSeparada)
             {
                 if (EsArticulo(palabra) == true)
                 {
                     string cadenaActual = "Palabra reservada: " + palabra + " (Artículo)";
                     listaCadenasTipo.Add(cadenaActual);
+
                 }
                 if (EsPronombre(palabra) == true)
                 {
@@ -164,7 +171,7 @@ namespace AppRevisionliteratura
             string[] oraciones = cadena.Split(';', '.');
 
             // Crea una lista para las oraciones con la primera letra mayuscula
-            List<string> listaOracionesMayus = new List<string>();
+            listaOracionesMayus = new List<string>();
 
             // Se recorre cada oracion
             foreach (string oracion in oraciones)
@@ -198,6 +205,78 @@ namespace AppRevisionliteratura
             }
 
             listaOraciones.DataSource = listaOracionesMayus;
+        }
+
+        private void ConversionOracionesComponentesLexicos()
+        {
+            //se recorren las oraciones
+            listComponentesLexicos = new List<List<Token>>();
+            foreach (string oraciones in listaOracionesMayus)
+            {
+                List<Token> componenteLexico = new List<Token>();
+                foreach (string palabra in oraciones.Split(" "))
+                {
+                    string tipo = "desconocido";
+                    if (EsArticulo(palabra) == true)
+                    {
+                        tipo = "Artículo";
+                    }
+                    if (EsPronombre(palabra) == true)
+                    {
+                        tipo = "Pronombre";
+                    }
+                    if (EsConjuncion(palabra) == true)
+                    {
+                        tipo = "Conjunción";
+                    }
+                    if (EsSustantivo(palabra) == true)
+                    {
+                        tipo = "Sustantivo";
+                    }
+                    if (EsAdjetivo(palabra) == true)
+                    {
+                        tipo = "Adjetivo";
+                    }
+                    if (EsAdverbio(palabra) == true)
+                    {
+                        tipo = "Adverbio";
+                    }
+                    if (EsVerbo(palabra) == true)
+                    {
+                        tipo = "Verbo";
+                    }
+                    Token token = new Token()
+                    {
+                        Type = tipo,
+                        Value = palabra
+                    };
+                    componenteLexico.Add(token);
+                }
+                listComponentesLexicos.Add(componenteLexico);
+            }
+
+            List<string> cadenas = new List<string>();
+            //Oraciones
+            foreach (List<Token> item in listComponentesLexicos)
+            {
+                //tokens
+                string cadena = "";
+                int indice = 0;
+                foreach (Token token in item)
+                {
+                    indice++;
+                    if (indice == item.Count)
+                    {
+                        cadena += token.Type;
+                    }
+                    else
+                    {
+                        cadena += token.Type + "+";
+                    }
+                    cadenas.Add(cadena);
+                }
+            }
+            listaComponentesLexicos.DataSource = cadenas;
         }
 
 
