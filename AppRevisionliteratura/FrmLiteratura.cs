@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -13,10 +14,29 @@ namespace AppRevisionliteratura
         String[] Articulos;
         String[] Conjunciones;
 
-
+        String[] listaSeparada;
+        string cadena;
         public FrmLiteratura()
         {
             InitializeComponent();
+            Articulos = new string[] { "la", "el", "los", "las", "un", "una", "unos", "unas" };
+
+            Pronombres = new string[] { "yo", "tú", "él", "ella","ellos","ellas", "nosotros", "vosotros", "ellos", "ellas", "ustedes",
+            "este", "ese", "aquel", "estos", "esos", "aquellos", "esta", "esa", "aquella", "estas", "esas", "aquellas", "esto", "eso", "aquello"};
+            
+            Conjunciones = new string[] { "y", "e", "ni", "tanto", "como", "ni", "igual", "que" };
+
+            Sustantivos = new string[] { "abuelita", "caperucita", "lobo", "leñador", "bosque", "cabaña",
+            "capa", "canasta", "camino", "flores", "árboles", "ramas", "ojos", "orejas",
+            "dientes", "colmillos", "garras", "ventana", "cama", "silla", "sendero",
+            "picnic", "pasto", "patas", "nariz", "sol", "nubes", "hacha", "chimenea", "niña"};
+
+            Adjetivos = new string[] { "colorido", "caprichoso", "infantil", "juguetón", "alegre", "soleado",
+            "pacífico", "pintoresco", "rural", "idílico", "agradable", "encantador", "bucólico", "relajante",
+            "tranquilo", "nostálgico", "romántico", "pastoral", "divertida", "caricaturesca", "festivo", "vibrante",
+            "animado", "sereno", "jubiloso", "acogedor", "exuberante", "armonioso", "resplandeciente", "sugestivo",
+            "radiante", "plácido", "sosegado", "risueño", "paradisíaco" };
+
             Adverbios = new string[] { "rápidamente", "sigilosamente", "astutamente",
             "dulcemente", "cautamente", "gentilmente", "bruscamente", "hábilmente",
             "furiosamente", "ingenuamente","temprano", "pronto", "nunca", "siempre",
@@ -28,24 +48,6 @@ namespace AppRevisionliteratura
              "correr", "salvar", "asustar", "ver", "vestir", "dormir", "engañar",
              "caminar", "preguntar", "recoger", "llevar", "llamar", "poner", "decir" };
 
-            Sustantivos = new string[] { "abuelita", "caperucita", "lobo", "leñador", "bosque", "cabaña",
-            "capa", "canasta", "camino", "flores", "árboles", "ramas", "ojos", "orejas",
-            "dientes", "colmillos", "garras", "ventana", "cama", "silla", "bosque", "sendero",
-            "picnic", "pasto", "patas", "nariz", "sol", "nubes", "hacha", "chimenea" };
-
-            Adjetivos = new string[] { "colorido", "caprichoso", "infantil", "juguetón", "alegre", "soleado",
-            "pacífico", "pintoresco", "rural", "idílico", "agradable", "encantador", "bucólico", "relajante",
-            "tranquilo", "nostálgico", "romántico", "pastoral", "divertida", "caricaturesca", "festivo", "vibrante",
-            "animado", "sereno", "jubiloso", "acogedor", "exuberante", "armonioso", "resplandeciente", "sugestivo",
-            "radiante", "plácido", "sosegado", "risueño", "paradisíaco" };
-
-            Articulos = new string[] { "la", "el", "los", "las", "un", "una", "unos", "unas" };
-
-            Pronombres = new string[] { "yo", "tú", "él", "ella","ellos","ellas", "nosotros", "vosotros", "ellos", "ellas", "ustedes",
-            "este", "ese", "aquel", "estos", "esos", "aquellos", "esta", "esa", "aquella", "estas", "esas", "aquellas", "esto", "eso", "aquello"};
-
-            Conjunciones = new string[] { "y", "e", "ni", "tanto", "como", "ni", "igual", "que" };
-
             richTextBox1.KeyDown += RichTextBox1_KeyDown;
         }
 
@@ -54,14 +56,93 @@ namespace AppRevisionliteratura
             if (e.KeyCode == Keys.Enter)
             {
                 // Aquí puedes poner el código que quieres que se ejecute cuando se presiona Enter
-                MessageBox.Show("Presionaste Enter.");
+                cadena = richTextBox1.Text;
+                ComprobarTipoPalabraReservada();
             }
-
         }
 
-        private void richTextBox1_Enter(object sender, EventArgs e)
+        #region Comprobadores
+        private bool EsArticulo(String cadena)
         {
-            MessageBox.Show("Hola");
+            return Articulos.Contains(cadena.ToLower());
         }
+        private bool EsPronombre(String cadena)
+        {
+            return Pronombres.Contains(cadena.ToLower());
+        }
+        private bool EsConjuncion(String cadena)
+        {
+            return Conjunciones.Contains(cadena.ToLower());
+        }
+        private bool EsSustantivo(String cadena)
+        {
+            return Sustantivos.Contains(cadena.ToLower());
+        }
+        private bool EsAdjetivo(String cadena)
+        {
+            return Adjetivos.Contains(cadena.ToLower());
+        }
+        private bool EsAdverbio(String cadena)
+        {
+            return Adjetivos.Contains(cadena.ToLower());
+        }
+        private bool EsVerbo(String cadena)
+        {
+            return Verbos.Contains(cadena.ToLower());
+        }
+        #endregion
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            cadena = richTextBox1.Text;
+            ComprobarTipoPalabraReservada();
+        }
+
+        private void ComprobarTipoPalabraReservada()
+        {
+            listaSeparada = cadena.Split(' ');
+            List<string> listaCadenasTipo = new List<string>();
+            foreach (string palabra in listaSeparada)
+            {
+                if (Articulos.Contains(palabra) == true)
+                {
+                    string cadenaActual = "Palabra reservada: " + palabra + " (Artículo)";
+                    listaCadenasTipo.Add(cadenaActual);
+                }
+                if (EsPronombre(palabra) == true)
+                {
+                    string cadenaActual = "Palabra reservada: " + palabra + " (Pronombre)";
+                    listaCadenasTipo.Add(cadenaActual);
+                }
+                if (EsConjuncion(palabra) == true)
+                {
+                    string cadenaActual = "Palabra reservada: " + palabra + " (Conjunción)";
+                    listaCadenasTipo.Add(cadenaActual);
+                }
+                if (EsSustantivo(palabra) == true)
+                {
+                    string cadenaActual = "Palabra reservada: " + palabra + " (Sustantivo)";
+                    listaCadenasTipo.Add(cadenaActual);
+                }
+                if (EsAdjetivo(palabra) == true)
+                {
+                    string cadenaActual = "Palabra reservada: " + palabra + " (Adjetivo)";
+                    listaCadenasTipo.Add(cadenaActual);
+                }
+                if (EsAdverbio(palabra) == true)
+                {
+                    string cadenaActual = "Palabra reservada: " + palabra + " (Adverbio)";
+                    listaCadenasTipo.Add(cadenaActual);
+                }
+                if (EsVerbo(palabra) == true)
+                {
+                    string cadenaActual = "Palabra reservada: " + palabra + " (Verbo)";
+                    listaCadenasTipo.Add(cadenaActual);
+                }
+
+            }
+            listBox1.DataSource = listaCadenasTipo;
+        }
+
     }
 }
