@@ -22,49 +22,55 @@ namespace AppRevisionliteratura
         string cadena;
         public FrmLiteratura()
         {
+            String[] Sustantivos;
+            String[] Abverbios;
+            String[] Verbos;
+            String[] Adjetivos;
             InitializeComponent();
+
             Articulos = new string[] { "la", "el", "los", "las", "un", "una", "unos", "unas" };
 
-            Pronombres = new string[] { "yo", "tú", "él", "ella","ellos","ellas", "nosotros", "vosotros", "ellos", "ellas", "ustedes",
+            Pronombres = new string[] { "yo", "tÃº", "Ã©l", "ella","ellos","ellas", "nosotros", "vosotros", "ellos", "ellas", "ustedes",
             "este", "ese", "aquel", "estos", "esos", "aquellos", "esta", "esa", "aquella", "estas", "esas", "aquellas", "esto", "eso", "aquello"};
 
             Conjunciones = new string[] { "y", "e", "ni", "tanto", "como", "ni", "igual", "que",
             "pero", "sin embargo", "no obstante", "sino", "o", "u",
-            "bien", "ya que", "por lo tanto", "entonces", "así que",
+            "bien", "ya que", "por lo tanto", "entonces", "asÃ­ que",
             "por eso", "porque", "pues", "aunque", "si bien",
-            "mientras que", "antes", "después", "además", "incluso",
-            "además de", "a pesar de", "con tal de que", "para que","en"};
+            "mientras que", "antes", "despuÃ©s", "ademÃ¡s", "incluso",
+            "ademÃ¡s de", "a pesar de", "con tal de que", "para que","en"};
 
-            Sustantivos = new string[] { "abuelita", "caperucita", "lobo", "leñador", "bosque", "cabaña",
-            "capa", "canasta", "camino", "flores", "árboles", "ramas", "ojos", "orejas",
+            Sustantivos = new string[] { "abuelita", "caperucita", "lobo", "leÃ±ador", "bosque", "cabaÃ±a",
+            "capa", "canasta", "camino", "flores", "Ã¡rboles", "ramas", "ojos", "orejas",
             "dientes", "colmillos", "garras", "ventana", "cama", "silla", "sendero",
-            "picnic", "pasto", "patas", "nariz", "sol", "nubes", "hacha", "chimenea", "niña", "casa", "pinos",              "lago","gorro","moño", "cobija", "mallas", "babero", "mandil", "mantel", "arbustos", "tejado", "puerta",            "cielo"};
+            "picnic", "pasto", "patas", "nariz", "sol", "nubes", "hacha", "chimenea", "niÃ±a", "casa", "pinos",              "lago","gorro","moÃ±o", "cobija", "mallas", "babero", "mandil", "mantel", "arbustos", "tejado", "puerta",            "cielo"};
 
-            Adjetivos = new string[] { "colorido", "caprichoso", "infantil", "juguetón", "alegre", "soleado",
-            "pacífico", "pintoresco", "rural", "idílico", "agradable", "encantador", "bucólico", "relajante",
-            "tranquilo", "nostálgico", "romántico", "pastoral", "divertida", "caricaturesca", "festivo", "vibrante",
+            Adjetivos = new string[] { "colorido", "caprichoso", "infantil", "juguetÃ³n", "alegre", "soleado",
+            "pacÃ­fico", "pintoresco", "rural", "idÃ­lico", "agradable", "encantador", "bucÃ³lico", "relajante",
+            "tranquilo", "nostÃ¡lgico", "romÃ¡ntico", "pastoral", "divertida", "caricaturesca", "festivo", "vibrante",
             "animado", "sereno", "jubiloso", "acogedor", "exuberante", "armonioso", "resplandeciente", "sugestivo",
-            "radiante", "plácido", "sosegado", "risueño", "paradisíaco","feroz","valiente","asustando","asustadas",             "mucho", "muchas","poco","poquito", "azul"};
+            "radiante", "plÃ¡cido", "sosegado", "risueÃ±o", "paradisÃ­aco","feroz","valiente","asustando","asustadas",             "mucho", "muchas","poco","poquito", "azul"};
 
-            Adverbios = new string[] { "rápidamente", "sigilosamente", "astutamente",
-            "dulcemente", "cautamente", "gentilmente", "bruscamente", "hábilmente",
+            Adverbios = new string[] { "rÃ¡pidamente", "sigilosamente", "astutamente",
+            "dulcemente", "cautamente", "gentilmente", "bruscamente", "hÃ¡bilmente",
             "furiosamente", "ingenuamente","temprano", "pronto", "nunca", "siempre",
             "lentamente", "velozmente", "despacio", "urgentemente", "sorpresivamente",
-            "furtivamente","lejos", "profundamente", "aquí", "allí", "cerca",
+            "furtivamente","lejos", "profundamente", "aquÃ­", "allÃ­", "cerca",
             "adentro", "afuera", "mansamente", "tiernamente", "furtivamente","tranquilamente","tiene"};
 
             Verbos = new string[] { "ir", "encontrar", "hablar", "comer", "llegar", "abrir",
-             "correr", "salvar", "asustar", "ver", "vestir", "dormir", "engañar",
+             "correr", "salvar", "asustar", "ver", "vestir", "dormir", "engaÃ±ar",
              "caminar", "preguntar", "recoger", "llevar", "llamar", "poner", "decir" };
 
             richTextBox1.KeyDown += RichTextBox1_KeyDown;
-        }
 
+        }
+      
         private void RichTextBox1_KeyDown(object? sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                // Aquí puedes poner el código que quieres que se ejecute cuando se presiona Enter
+                // AquÃ­ puedes poner el cÃ³digo que quieres que se ejecute cuando se presiona Enter
                 cadena = richTextBox1.Text;
                 ComprobarTipoPalabraReservada();
                 SepararOraciones();
@@ -119,7 +125,7 @@ namespace AppRevisionliteratura
                 return;
             }
             string cadenaTrimmed = cadena.Trim();
-            listaSeparada = cadenaTrimmed.Split(' ',';','.',',','?','¿','!','¡',' ');
+            listaSeparada = cadenaTrimmed.Split(' ',';','.',',','?','Â¿','!','Â¡',' ');
             List<string> listaCadenasTipo = new List<string>();
             //token token token
             //token token token token
@@ -131,7 +137,7 @@ namespace AppRevisionliteratura
                 }
                 else if (EsArticulo(palabra) == true)
                 {
-                    string cadenaActual = "Palabra reservada: " + palabra + " (Artículo)";
+                    string cadenaActual = "Palabra reservada: " + palabra + " (ArtÃ­culo)";
                     listaCadenasTipo.Add(cadenaActual);
                 }
                 else if (EsPronombre(palabra) == true)
@@ -141,7 +147,7 @@ namespace AppRevisionliteratura
                 }
                 else if (EsConjuncion(palabra) == true)
                 {
-                    string cadenaActual = "Palabra reservada: " + palabra + " (Conjunción)";
+                    string cadenaActual = "Palabra reservada: " + palabra + " (ConjunciÃ³n)";
                     listaCadenasTipo.Add(cadenaActual);
                 }
                 else if (EsSustantivo(palabra) == true)
@@ -191,7 +197,7 @@ namespace AppRevisionliteratura
                 // Se divide la oracion en palabras
                 string[] palabras = oracionTrimmed.Split(' ', ',');
 
-                // Se verifica si la primera palabra es de conjunción
+                // Se verifica si la primera palabra es de conjunciÃ³n
                 if (EsConjuncion(palabras[0]) == true)
                 {
                     //Se remueve la palabra de conjuncion y se elimina la coma.
@@ -200,7 +206,7 @@ namespace AppRevisionliteratura
                     //Se coloca en mayuscula la primera letra
                     string oracionMayus = char.ToUpper(oracionSinConjuncion[0]) + oracionSinConjuncion.Substring(1);
 
-                    //Añade oracion a la lista
+                    //AÃ±ade oracion a la lista
                     listaOracionesMayus.Add(oracionMayus);
                 }
                 else
@@ -208,7 +214,7 @@ namespace AppRevisionliteratura
                     //Se coloca en mayuscula la primera letra
                     string oracionMayus = char.ToUpper(oracionTrimmed[0]) + oracionTrimmed.Substring(1);
 
-                    //Añade oracion a la lista
+                    //AÃ±ade oracion a la lista
                     listaOracionesMayus.Add(oracionMayus);
                 }
             }
@@ -227,12 +233,12 @@ namespace AppRevisionliteratura
                 foreach (string palabra in oraciones.Split(" "))
                 {
                     ;
-                    palabra.Replace("¿","");
+                    palabra.Replace("Â¿","");
                     palabra.Trim();
                     string tipo = "desconocido";
                     if (EsArticulo(palabra) == true)
                     {
-                        tipo = "Artículo";
+                        tipo = "ArtÃ­culo";
                     }
                     if (EsPronombre(palabra) == true)
                     {
@@ -240,7 +246,7 @@ namespace AppRevisionliteratura
                     }
                     if (EsConjuncion(palabra) == true)
                     {
-                        tipo = "Conjunción";
+                        tipo = "ConjunciÃ³n";
                     }
                     if (EsSustantivo(palabra) == true)
                     {
@@ -294,4 +300,6 @@ namespace AppRevisionliteratura
 
 
     }
+ 
+
 }
