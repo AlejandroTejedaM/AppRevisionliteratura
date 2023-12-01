@@ -118,46 +118,55 @@ namespace AppRevisionliteratura
                 MessageBox.Show("Porfavor introduzca un texto a comprobar");
                 return;
             }
-            listaSeparada = cadena.Split(' ', ';', '.');
+            string cadenaTrimmed = cadena.Trim();
+            listaSeparada = cadenaTrimmed.Split(' ',';','.',',','?','¿','!','¡',' ');
             List<string> listaCadenasTipo = new List<string>();
-            //token token token 
+            //token token token
             //token token token token
             foreach (string palabra in listaSeparada)
             {
-                if (EsArticulo(palabra) == true)
+                if (string.IsNullOrWhiteSpace(palabra))
+                {
+                
+                }
+                else if (EsArticulo(palabra) == true)
                 {
                     string cadenaActual = "Palabra reservada: " + palabra + " (Artículo)";
                     listaCadenasTipo.Add(cadenaActual);
-
                 }
-                if (EsPronombre(palabra) == true)
+                else if (EsPronombre(palabra) == true)
                 {
                     string cadenaActual = "Palabra reservada: " + palabra + " (Pronombre)";
                     listaCadenasTipo.Add(cadenaActual);
                 }
-                if (EsConjuncion(palabra) == true)
+                else if (EsConjuncion(palabra) == true)
                 {
                     string cadenaActual = "Palabra reservada: " + palabra + " (Conjunción)";
                     listaCadenasTipo.Add(cadenaActual);
                 }
-                if (EsSustantivo(palabra) == true)
+                else if (EsSustantivo(palabra) == true)
                 {
                     string cadenaActual = "Palabra reservada: " + palabra + " (Sustantivo)";
                     listaCadenasTipo.Add(cadenaActual);
                 }
-                if (EsAdjetivo(palabra) == true)
+                else if (EsAdjetivo(palabra) == true)
                 {
                     string cadenaActual = "Palabra reservada: " + palabra + " (Adjetivo)";
                     listaCadenasTipo.Add(cadenaActual);
                 }
-                if (EsAdverbio(palabra) == true)
+                else if (EsAdverbio(palabra) == true)
                 {
                     string cadenaActual = "Palabra reservada: " + palabra + " (Adverbio)";
                     listaCadenasTipo.Add(cadenaActual);
                 }
-                if (EsVerbo(palabra) == true)
+                else if (EsVerbo(palabra) == true)
                 {
                     string cadenaActual = "Palabra reservada: " + palabra + " (Verbo)";
+                    listaCadenasTipo.Add(cadenaActual);
+                }
+                else
+                {
+                    string cadenaActual = "Palabra desconocida: " + palabra + "(N/A)";
                     listaCadenasTipo.Add(cadenaActual);
                 }
 
@@ -211,11 +220,15 @@ namespace AppRevisionliteratura
         {
             //se recorren las oraciones
             listComponentesLexicos = new List<List<Token>>();
+            
             foreach (string oraciones in listaOracionesMayus)
             {
                 List<Token> componenteLexico = new List<Token>();
                 foreach (string palabra in oraciones.Split(" "))
                 {
+                    ;
+                    palabra.Replace("¿","");
+                    palabra.Trim();
                     string tipo = "desconocido";
                     if (EsArticulo(palabra) == true)
                     {
@@ -273,8 +286,8 @@ namespace AppRevisionliteratura
                     {
                         cadena += token.Type + "+";
                     }
-                    cadenas.Add(cadena);
                 }
+                cadenas.Add(cadena);
             }
             listaComponentesLexicos.DataSource = cadenas;
         }
