@@ -299,7 +299,10 @@ namespace AppRevisionliteratura
             listaComponentesLexicos.DataSource = cadenas;
         }
 
+        private void FrmLiteratura_Load(object sender, EventArgs e)
+        {
 
+        }
     }
 
 
