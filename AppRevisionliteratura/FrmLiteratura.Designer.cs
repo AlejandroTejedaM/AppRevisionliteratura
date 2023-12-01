@@ -95,18 +95,24 @@
             // listaElementos
             // 
             listaElementos.FormattingEnabled = true;
+            listaElementos.HorizontalScrollbar = true;
+            listaElementos.ImeMode = ImeMode.NoControl;
             listaElementos.ItemHeight = 25;
             listaElementos.Location = new Point(680, 63);
             listaElementos.Name = "listaElementos";
+            listaElementos.ScrollAlwaysVisible = true;
             listaElementos.Size = new Size(530, 254);
             listaElementos.TabIndex = 4;
             // 
             // listaReglas
             // 
             listaReglas.FormattingEnabled = true;
+            listaReglas.HorizontalScrollbar = true;
+            listaReglas.ImeMode = ImeMode.NoControl;
             listaReglas.ItemHeight = 25;
             listaReglas.Location = new Point(680, 370);
             listaReglas.Name = "listaReglas";
+            listaReglas.ScrollAlwaysVisible = true;
             listaReglas.Size = new Size(530, 254);
             listaReglas.TabIndex = 5;
             // 
@@ -150,9 +156,12 @@
             // listaOraciones
             // 
             listaOraciones.FormattingEnabled = true;
+            listaOraciones.HorizontalScrollbar = true;
+            listaOraciones.ImeMode = ImeMode.NoControl;
             listaOraciones.ItemHeight = 25;
             listaOraciones.Location = new Point(1247, 63);
             listaOraciones.Name = "listaOraciones";
+            listaOraciones.ScrollAlwaysVisible = true;
             listaOraciones.Size = new Size(479, 254);
             listaOraciones.TabIndex = 10;
             // 
@@ -168,9 +177,11 @@
             // listaComponentesLexicos
             // 
             listaComponentesLexicos.FormattingEnabled = true;
+            listaComponentesLexicos.HorizontalScrollbar = true;
             listaComponentesLexicos.ItemHeight = 25;
-            listaComponentesLexicos.Location = new Point(1247, 370);
+            listaComponentesLexicos.Location = new Point(1247, 372);
             listaComponentesLexicos.Name = "listaComponentesLexicos";
+            listaComponentesLexicos.ScrollAlwaysVisible = true;
             listaComponentesLexicos.Size = new Size(479, 254);
             listaComponentesLexicos.TabIndex = 12;
             // 

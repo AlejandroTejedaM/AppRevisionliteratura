@@ -61,7 +61,7 @@ namespace AppRevisionliteratura
             richTextBox1.KeyDown += RichTextBox1_KeyDown;
 
         }
-      
+
         private void RichTextBox1_KeyDown(object? sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -121,7 +121,7 @@ namespace AppRevisionliteratura
                 return;
             }
             string cadenaTrimmed = cadena.Trim();
-            listaSeparada = cadenaTrimmed.Split(' ',';','.',',','?','¿','!','¡',' ');
+            listaSeparada = cadenaTrimmed.Split(' ', ';', '.', ',', '?', '¿', '!', '¡', ' ');
             List<string> listaCadenasTipo = new List<string>();
             //token token token
             //token token token token
@@ -129,7 +129,7 @@ namespace AppRevisionliteratura
             {
                 if (string.IsNullOrWhiteSpace(palabra))
                 {
-                
+
                 }
                 else if (EsArticulo(palabra) == true)
                 {
@@ -222,15 +222,20 @@ namespace AppRevisionliteratura
         {
             //se recorren las oraciones
             listComponentesLexicos = new List<List<Token>>();
-            
+
             foreach (string oraciones in listaOracionesMayus)
             {
                 List<Token> componenteLexico = new List<Token>();
-                foreach (string palabra in oraciones.Split(" "))
+                foreach (string palabraOracion in oraciones.Split(" "))
                 {
-                    ;
-                    palabra.Replace("¿","");
-                    palabra.Trim();
+                    string palabra = palabraOracion;
+                    if (palabra.Contains('?') || palabra.Contains('!') || palabra.Contains('¿') || palabra.Contains('¡'))
+                    {
+                        palabra = palabra.Replace("¿", "");
+                        palabra = palabra.Replace("?", "");
+                        palabra = palabra.Replace("¡", "");
+                        palabra = palabra.Replace("!", "");
+                    }
                     string tipo = "desconocido";
                     if (EsArticulo(palabra) == true)
                     {
@@ -296,6 +301,6 @@ namespace AppRevisionliteratura
 
 
     }
- 
+
 
 }
