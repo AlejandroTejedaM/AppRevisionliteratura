@@ -22,10 +22,6 @@ namespace AppRevisionliteratura
         string cadena;
         public FrmLiteratura()
         {
-            String[] Sustantivos;
-            String[] Abverbios;
-            String[] Verbos;
-            String[] Adjetivos;
             InitializeComponent();
 
             Articulos = new string[] { "la", "el", "los", "las", "un", "una", "unos", "unas" };
