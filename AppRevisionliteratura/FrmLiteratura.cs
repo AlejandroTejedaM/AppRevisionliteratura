@@ -30,7 +30,7 @@ namespace AppRevisionliteratura
             "este", "ese", "aquel", "estos", "esos", "aquellos", "esta", "esa", "aquella", "estas", "esas", "aquellas", "esto", "eso", "aquello"};
 
             Conjunciones = new string[] { "y", "e", "ni", "tanto", "como", "ni", "igual", "que",
-            "pero", "sin embargo", "no obstante", "sino", "o", "u",
+            "pero", "sin embargo", "no obstante", "sino", "o", "O", "u",
             "bien", "ya que", "por lo tanto", "entonces", "así que",
             "por eso", "porque", "pues", "aunque", "si bien",
             "mientras que", "antes", "después", "además", "incluso",
@@ -56,7 +56,8 @@ namespace AppRevisionliteratura
 
             Verbos = new string[] { "ir", "encontrar", "hablar", "comer", "llegar", "abrir",
              "correr", "salvar", "asustar", "ver", "vestir", "dormir", "engañar",
-             "caminar", "preguntar", "recoger", "llevar", "llamar", "poner", "decir" };
+             "caminar", "preguntar", "recoger", "llevar", "llamar", "poner", "decir", "come","camina","salva","encuentra,","llega",
+             "abre","pregunta","asusta","va"};
 
             richTextBox1.KeyDown += RichTextBox1_KeyDown;
 
@@ -179,8 +180,14 @@ namespace AppRevisionliteratura
         private void SepararOraciones()
         {
             // Se divide el texto entrante en oraciones
-            string[] oraciones = cadena.Split(';', '.');
-
+            
+            string[] oraciones = cadena.Trim().Split(';', '.');
+            if (oraciones[oraciones.Length-1] == "")
+            {
+                string[] oracionesArray = new string[1];
+                oracionesArray[0] = oraciones[0];
+                oraciones = oracionesArray;
+            }
             // Crea una lista para las oraciones con la primera letra mayuscula
             listaOracionesMayus = new List<string>();
 
@@ -194,10 +201,20 @@ namespace AppRevisionliteratura
                 string[] palabras = oracionTrimmed.Split(' ', ',');
 
                 // Se verifica si la primera palabra es de conjunción
-                if (EsConjuncion(palabras[0]) == true)
+                if (EsConjuncion(palabras[0]) == true && oracionTrimmed.Contains(','))
                 {
                     //Se remueve la palabra de conjuncion y se elimina la coma.
                     string oracionSinConjuncion = oracionTrimmed.Substring(palabras[0].Length + 1).Trim();
+
+                    //Se coloca en mayuscula la primera letra
+                    string oracionMayus = char.ToUpper(oracionSinConjuncion[0]) + oracionSinConjuncion.Substring(1);
+
+                    //Añade oracion a la lista
+                    listaOracionesMayus.Add(oracionMayus);
+                }else if (EsConjuncion(palabras[0]) == true)
+                {
+                    //Se remueve la palabra de conjuncion.
+                    string oracionSinConjuncion = oracionTrimmed.Substring(palabras[0].Length).Trim();
 
                     //Se coloca en mayuscula la primera letra
                     string oracionMayus = char.ToUpper(oracionSinConjuncion[0]) + oracionSinConjuncion.Substring(1);
@@ -226,7 +243,7 @@ namespace AppRevisionliteratura
             foreach (string oraciones in listaOracionesMayus)
             {
                 List<Token> componenteLexico = new List<Token>();
-                foreach (string palabraOracion in oraciones.Split(" "))
+                foreach (string palabraOracion in oraciones.Split(' '))
                 {
                     string palabra = palabraOracion;
                     if (palabra.Contains('?') || palabra.Contains('!') || palabra.Contains('¿') || palabra.Contains('¡'))
