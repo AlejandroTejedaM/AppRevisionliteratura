@@ -15,6 +15,7 @@ namespace AppRevisionliteratura
         String[] Conjunciones;
 
         String[] listaSeparada;
+        String[] listaOraciones;
         string cadena;
         public FrmLiteratura()
         {
@@ -101,16 +102,19 @@ namespace AppRevisionliteratura
         {
             cadena = richTextBox1.Text;
             ComprobarTipoPalabraReservada();
+
         }
 
         private void ComprobarTipoPalabraReservada()
         {
+
             if (string.IsNullOrWhiteSpace(cadena))
             {
                 MessageBox.Show("Porfavor introduzca un texto a comprobar");
                 return;
             }
-            listaSeparada = cadena.Split(' ');
+
+            listaSeparada = cadena.Split();
             List<string> listaCadenasTipo = new List<string>();
             foreach (string palabra in listaSeparada)
             {
@@ -153,6 +157,29 @@ namespace AppRevisionliteratura
             }
             listBox1.DataSource = listaCadenasTipo;
         }
+        private void separarOraciones()
+        {
 
+          
+            if (string.IsNullOrWhiteSpace(cadena))
+            {
+                MessageBox.Show("Porfavor introduzca un texto a comprobar");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(cadena))
+            {
+                MessageBox.Show("Porfavor introduzca un texto a comprobar");
+                return;
+            }
+            char[] separadores = { ',', '.' };
+
+            listaOraciones = cadena.Split(separadores);
+            List<string> listaCadenasTipoOracion = new List<string>();
+            foreach (var oracion in listaCadenasTipoOracion)
+            {
+                listaCadenasTipoOracion.Add(oracion);
+            }
+            listBox3.DataSource = listaCadenasTipoOracion;
+        }
     }
 }
