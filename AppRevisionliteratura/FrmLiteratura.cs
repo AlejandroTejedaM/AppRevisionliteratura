@@ -12,12 +12,14 @@ namespace AppRevisionliteratura
         string[] Adverbios;
         string[] Verbos;
         string[] Adjetivos;
+        string[] AdverbiosNegativos;
         string[] Pronombres;
         string[] Articulos;
         string[] Conjunciones;
         List<string> componentesOraciones = new List<string>();
         List<string> listaOracionesMayus;
         List<List<Token>> listComponentesLexicos;
+        List<string> listaReglas;
         List<string> componentesLexicos = new List<string>();
         string[] oraciones;
 
@@ -31,7 +33,10 @@ namespace AppRevisionliteratura
         //Delimitadores
         Regex regexDelimitadores;
 
-        
+        Regex adverbiosNegativos;
+
+
+
         public FrmLiteratura()
         {
             InitializeComponent();
@@ -65,7 +70,7 @@ namespace AppRevisionliteratura
             "lentamente", "velozmente", "despacio", "urgentemente", "sorpresivamente",
             "furtivamente","lejos", "profundamente", "aquí", "allí", "cerca",
             "adentro", "afuera", "mansamente", "tiernamente", "furtivamente","tranquilamente","tiene","jamás","nada","no","tampoco"};
-
+            AdverbiosNegativos = new string[] {"no","nunca"};
             Verbos = new string[] { "ir", "encontrar", "hablar", "comer", "llegar", "abrir",
              "correr", "salvar", "asustar", "ver", "vestir", "dormir", "engañar",
              "caminar", "preguntar", "recoger", "llevar", "llamar", "poner", "decir", "come","camina","salva","encuentra,","llega",
@@ -172,51 +177,30 @@ namespace AppRevisionliteratura
 
         private void AnalisisReglas()
         {
-            //Oracion simple
-            AreaTextoReglas.Items.Clear();
-            foreach (List<Token> listaTokenOracion in listComponentesLexicos)
+           
+            string CadenaMostrar = "Erronea";
+            listaReglas = new List<string>();
+            foreach (var item in listaOracionesMayus)
             {
-                //token token token
-                //token token
-                int contadorToken = 0;
-                foreach (var token in listaTokenOracion)
-                {
-                    contadorToken++;
-                    string cadenaMostrar = "Regla desconocida/Erronea";
-                    Token tokenActual = token as Token;
-                    if (listaTokenOracion.Count == 1)
-                    {
-                        return;
-                    }
-                    Token tokenSiguiente = listaTokenOracion.ElementAt(1);
-                    if ((tokenActual.Type == "Sustantivo" || tokenActual.Type == "Nombre propio") && tokenSiguiente.Type == "Adverbio")
-                    {
-                        bool isSustantivo = EsSustantivo(token.Value);
-                        bool isNombrePropio = esNombrePropio(token.Value);
-                        bool isAdverbio = EsAdverbio(tokenSiguiente.Value);
-                        //Token
-                        if ((isSustantivo || isNombrePropio) && isAdverbio)
-                        {
-                            cadenaMostrar = "Oracion simple - Enunciativa";
-                        }
-                        else
-                        {
-                            if ((isSustantivo || isNombrePropio) && )
-                            {
-                                cadenaMostrar = "Oracion simple - Enunciativa";
-                            }
+               string[] Aux = item.Split(" ");
 
-                        }
-                    }
-                    if(contadorToken == listaTokenOracion.Count)
+                foreach (var palabra in Aux)
+                {
+                    if (adverbiosNegativos.IsMatch(palabra))
                     {
-                        AreaTextoReglas.Items.Add(cadenaMostrar);
+                        CadenaMostrar = "Oracion simple";
+                        MessageBox.Show(CadenaMostrar);
+
                     }
                 }
+                
+              
             }
-            //Oracion compuesta
+
+
         }
-        
+
+
         private string separar(string componente)
         {
             //if(!string.IsNullOrEmpty(componente))
@@ -229,6 +213,7 @@ namespace AppRevisionliteratura
             //}
             return "";
         }
+ 
         private void ComprobarTipoPalabraReservada()
         {
             
@@ -470,6 +455,8 @@ namespace AppRevisionliteratura
             regexOperadores = new Regex("\\?|\\¿|\\!|\\¡");
             //Delimitadores
             regexDelimitadores = new Regex("\\.|;|\\)|\\(|,|:");
+
+            adverbiosNegativos = new Regex("no|nunca");
            
         }
     }
