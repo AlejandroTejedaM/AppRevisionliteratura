@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace AppRevisionliteratura
@@ -16,10 +18,18 @@ namespace AppRevisionliteratura
         List<string> componentesOraciones = new List<string>();
         List<string> listaOracionesMayus;
         List<List<Token>> listComponentesLexicos;
+        List<string> componentesLexicos = new List<string>();
         string[] oraciones;
 
         string[] listaSeparada;
         string cadena;
+        Regex regexNombres;
+        //Literales
+        Regex regexliterales;
+        //Operadores
+        Regex regexOperadores;
+        //Delimitadores
+        Regex regexDelimitadores;
         public FrmLiteratura()
         {
             InitializeComponent();
@@ -52,7 +62,7 @@ namespace AppRevisionliteratura
             "furiosamente", "ingenuamente","temprano", "pronto", "nunca", "siempre",
             "lentamente", "velozmente", "despacio", "urgentemente", "sorpresivamente",
             "furtivamente","lejos", "profundamente", "aquí", "allí", "cerca",
-            "adentro", "afuera", "mansamente", "tiernamente", "furtivamente","tranquilamente","tiene"};
+            "adentro", "afuera", "mansamente", "tiernamente", "furtivamente","tranquilamente","tiene","jamás","nada","no","tampoco"};
 
             Verbos = new string[] { "ir", "encontrar", "hablar", "comer", "llegar", "abrir",
              "correr", "salvar", "asustar", "ver", "vestir", "dormir", "engañar",
@@ -61,20 +71,8 @@ namespace AppRevisionliteratura
 
             richTextBox1.KeyDown += RichTextBox1_KeyDown;
 
+            
         }
-
-        private void RichTextBox1_KeyDown(object? sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                // Aquí puedes poner el código que quieres que se ejecute cuando se presiona Enter
-                cadena = richTextBox1.Text;
-                ComprobarTipoPalabraReservada();
-                SepararOraciones();
-                ConversionOracionesComponentesLexicos();
-            }
-        }
-
         #region Comprobadores
         private bool EsArticulo(String cadena)
         {
@@ -104,25 +102,108 @@ namespace AppRevisionliteratura
         {
             return Verbos.Contains(cadena.ToLower());
         }
-        #endregion
 
+        private bool esNombrePropio(String cadena)
+        {
+            return regexNombres.IsMatch(cadena);
+        }
+        private bool esliteralNumeroEntero(String cadena)
+        {
+            return regexliterales.IsMatch(cadena);
+        }
+        private bool esOperador(String cadena)
+        {
+            return regexOperadores.IsMatch(cadena);
+        }
+        private bool esDelimitador(String cadena)
+        {
+            return regexDelimitadores.IsMatch(cadena);
+        }
+        #endregion
+        private void RichTextBox1_KeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                // Aquí puedes poner el código que quieres que se ejecute cuando se presiona Enter
+                componentesLexicos.Clear();
+                AreaTextoComponentesLexicos.DataSource = null;
+                cadena = richTextBox1.Text;
+                if (string.IsNullOrWhiteSpace(cadena))
+                {
+                    MessageBox.Show("Porfavor introduzca un texto a comprobar");
+                    return;
+                }
+                ComprobarTipoPalabraReservada();
+                SepararOraciones();
+                ConversionOracionesComponentesLexicos();
+                AnalisisReglas();
+            }
+        }
         private void button1_Click(object sender, EventArgs e)
         {
+            componentesLexicos.Clear();
+            AreaTextoComponentesLexicos.DataSource = null;
             cadena = richTextBox1.Text;
-            ComprobarTipoPalabraReservada();
-            SepararOraciones();
-            ConversionOracionesComponentesLexicos();
-        }
-
-        private void ComprobarTipoPalabraReservada()
-        {
             if (string.IsNullOrWhiteSpace(cadena))
             {
                 MessageBox.Show("Porfavor introduzca un texto a comprobar");
                 return;
             }
-            string cadenaTrimmed = cadena.Trim();
-            listaSeparada = cadenaTrimmed.Split(' ', ';', '.', ',', '?', '¿', '!', '¡', ' ');
+            ComprobarTipoPalabraReservada();
+            SepararOraciones();
+            ConversionOracionesComponentesLexicos();
+            AnalisisReglas();
+        }
+
+        private void AnalisisReglas()
+        {
+            //Oracion simple
+            foreach (List<Token> lista in listComponentesLexicos)
+            {
+                foreach (var token in lista)
+                {
+                    
+                    Token tokenActual = token as Token;
+                    Token tokenSiguiente = lista.ElementAt(1);
+                    if ((tokenActual.Type == "Sustantivo" || tokenActual.Type == "Nombre propio") && tokenSiguiente.Type == "Adverbio")
+                    {
+                        bool isSustantivo = EsSustantivo(token.Value);
+                        bool isNombrePropio = esNombrePropio(token.Value);
+                        bool isAdverbio = EsAdverbio(tokenSiguiente.Value);
+                        if ((isSustantivo || isNombrePropio) && isAdverbio)
+                        {
+                            AreaTextoReglas.Items.Add("Oracion simple - Enunciativa");
+                        }
+                        else
+                        {
+                            AreaTextoReglas.Items.Add("Oracion simple?");
+
+                        }
+                    }
+                }
+            }
+            //Oracion compuesta
+        }
+        
+        private string separar(string componente)
+        {
+            //if(!string.IsNullOrEmpty(componente))
+            //{
+            //    Adjetivos+Sustantivo+Adverbio
+            //}
+            //else
+            //{
+            //    return "";
+            //}
+            return "";
+        }
+        private void ComprobarTipoPalabraReservada()
+        {
+            
+            string cadenaTrimmed = cadena.Trim(); char[] delimitadores = { ' ', '.', ';', '(', ')', ',' };
+
+            listaSeparada = Regex.Split(cadena, "([.,;()¿?¡!\\ ])");
+
             List<string> listaCadenasTipo = new List<string>();
             //token token token
             //token token token token
@@ -166,23 +247,42 @@ namespace AppRevisionliteratura
                 {
                     string cadenaActual = "Palabra reservada: " + palabra + " (Verbo)";
                     listaCadenasTipo.Add(cadenaActual);
+                }else if (esNombrePropio(palabra) == true )
+                {
+                    string cadenaActual = "Identificador: " + palabra + " (Nombre propio)";
+                    listaCadenasTipo.Add(cadenaActual);
+                }
+                else if (esliteralNumeroEntero(palabra) == true)
+                {
+                    string cadenaActual = "Literal: " + palabra + " (Numero entero)";
+                    listaCadenasTipo.Add(cadenaActual);
+                }
+                else if (esOperador(palabra) == true)
+                {
+                    string cadenaActual = "Operador: " + palabra;
+                    listaCadenasTipo.Add(cadenaActual);
+                }
+                else if (esDelimitador(palabra) == true)
+                {
+                    string cadenaActual = "Delimitador: " + palabra;
+                    listaCadenasTipo.Add(cadenaActual);
                 }
                 else
                 {
-                    string cadenaActual = "Palabra desconocida: " + palabra + "(N/A)";
+                    string cadenaActual = "Desconocido: " + palabra;
                     listaCadenasTipo.Add(cadenaActual);
                 }
 
             }
-            listaElementos.DataSource = listaCadenasTipo;
+            AreaTextoElementos.DataSource = listaCadenasTipo;
         }
 
         private void SepararOraciones()
         {
             // Se divide el texto entrante en oraciones
-            
+
             string[] oraciones = cadena.Trim().Split(';', '.');
-            if (oraciones[oraciones.Length-1] == "")
+            if (oraciones[oraciones.Length - 1] == "")
             {
                 string[] oracionesArray = new string[1];
                 oracionesArray[0] = oraciones[0];
@@ -211,7 +311,8 @@ namespace AppRevisionliteratura
 
                     //Añade oracion a la lista
                     listaOracionesMayus.Add(oracionMayus);
-                }else if (EsConjuncion(palabras[0]) == true)
+                }
+                else if (EsConjuncion(palabras[0]) == true)
                 {
                     //Se remueve la palabra de conjuncion.
                     string oracionSinConjuncion = oracionTrimmed.Substring(palabras[0].Length).Trim();
@@ -232,7 +333,7 @@ namespace AppRevisionliteratura
                 }
             }
 
-            listaOraciones.DataSource = listaOracionesMayus;
+            AreaTextoOraciones.DataSource = listaOracionesMayus;
         }
 
         private void ConversionOracionesComponentesLexicos()
@@ -282,6 +383,10 @@ namespace AppRevisionliteratura
                     {
                         tipo = "Verbo";
                     }
+                    if (esNombrePropio(palabra) == true)
+                    {
+                        tipo = "Nombre propio";
+                    }
                     Token token = new Token()
                     {
                         Type = tipo,
@@ -292,7 +397,6 @@ namespace AppRevisionliteratura
                 listComponentesLexicos.Add(componenteLexico);
             }
 
-            List<string> cadenas = new List<string>();
             //Oraciones
             foreach (List<Token> item in listComponentesLexicos)
             {
@@ -311,14 +415,21 @@ namespace AppRevisionliteratura
                         cadena += token.Type + "+";
                     }
                 }
-                cadenas.Add(cadena);
+                componentesLexicos.Add(cadena);
             }
-            listaComponentesLexicos.DataSource = cadenas;
+            AreaTextoComponentesLexicos.DataSource = componentesLexicos;
         }
 
         private void FrmLiteratura_Load(object sender, EventArgs e)
         {
-
+            //Nombre propio
+            regexNombres = new Regex("[A-Z][a-z]");
+            //Literales
+            regexliterales = new Regex("[1-9]+");
+            //Operadores
+            regexOperadores = new Regex("\\?|\\¿|\\!|\\¡");
+            //Delimitadores
+            regexDelimitadores = new Regex("\\.|;|\\)|\\(|,|:");
         }
     }
 
