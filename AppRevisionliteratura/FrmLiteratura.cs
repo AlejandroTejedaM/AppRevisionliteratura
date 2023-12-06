@@ -30,6 +30,8 @@ namespace AppRevisionliteratura
         Regex regexOperadores;
         //Delimitadores
         Regex regexDelimitadores;
+
+        
         public FrmLiteratura()
         {
             InitializeComponent();
@@ -124,7 +126,31 @@ namespace AppRevisionliteratura
         {
             if (e.KeyCode == Keys.Enter)
             {
-                // Aquí puedes poner el código que quieres que se ejecute cuando se presiona Enter
+                try
+                {
+                    componentesLexicos.Clear();
+                    AreaTextoComponentesLexicos.DataSource = null;
+                    cadena = richTextBox1.Text;
+                    if (string.IsNullOrWhiteSpace(cadena))
+                    {
+                        MessageBox.Show("Porfavor introduzca un texto a comprobar");
+                        return;
+                    }
+                    ComprobarTipoPalabraReservada();
+                    SepararOraciones();
+                    ConversionOracionesComponentesLexicos();
+                    AnalisisReglas();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error", "AVISO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 componentesLexicos.Clear();
                 AreaTextoComponentesLexicos.DataSource = null;
                 cadena = richTextBox1.Text;
@@ -138,47 +164,53 @@ namespace AppRevisionliteratura
                 ConversionOracionesComponentesLexicos();
                 AnalisisReglas();
             }
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            componentesLexicos.Clear();
-            AreaTextoComponentesLexicos.DataSource = null;
-            cadena = richTextBox1.Text;
-            if (string.IsNullOrWhiteSpace(cadena))
+            catch (Exception er)
             {
-                MessageBox.Show("Porfavor introduzca un texto a comprobar");
-                return;
+                MessageBox.Show("Error", "AVISO", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            ComprobarTipoPalabraReservada();
-            SepararOraciones();
-            ConversionOracionesComponentesLexicos();
-            AnalisisReglas();
         }
 
         private void AnalisisReglas()
         {
             //Oracion simple
-            foreach (List<Token> lista in listComponentesLexicos)
+            AreaTextoReglas.Items.Clear();
+            foreach (List<Token> listaTokenOracion in listComponentesLexicos)
             {
-                foreach (var token in lista)
+                //token token token
+                //token token
+                int contadorToken = 0;
+                foreach (var token in listaTokenOracion)
                 {
-                    
+                    contadorToken++;
+                    string cadenaMostrar = "Regla desconocida/Erronea";
                     Token tokenActual = token as Token;
-                    Token tokenSiguiente = lista.ElementAt(1);
+                    if (listaTokenOracion.Count == 1)
+                    {
+                        return;
+                    }
+                    Token tokenSiguiente = listaTokenOracion.ElementAt(1);
                     if ((tokenActual.Type == "Sustantivo" || tokenActual.Type == "Nombre propio") && tokenSiguiente.Type == "Adverbio")
                     {
                         bool isSustantivo = EsSustantivo(token.Value);
                         bool isNombrePropio = esNombrePropio(token.Value);
                         bool isAdverbio = EsAdverbio(tokenSiguiente.Value);
+                        //Token
                         if ((isSustantivo || isNombrePropio) && isAdverbio)
                         {
-                            AreaTextoReglas.Items.Add("Oracion simple - Enunciativa");
+                            cadenaMostrar = "Oracion simple - Enunciativa";
                         }
                         else
                         {
-                            AreaTextoReglas.Items.Add("Oracion simple?");
+                            if ((isSustantivo || isNombrePropio) && )
+                            {
+                                cadenaMostrar = "Oracion simple - Enunciativa";
+                            }
 
                         }
+                    }
+                    if(contadorToken == listaTokenOracion.Count)
+                    {
+                        AreaTextoReglas.Items.Add(cadenaMostrar);
                     }
                 }
             }
@@ -281,59 +313,67 @@ namespace AppRevisionliteratura
         {
             // Se divide el texto entrante en oraciones
 
-            string[] oraciones = cadena.Trim().Split(';', '.');
-            if (oraciones[oraciones.Length - 1] == "")
+            try
             {
-                string[] oracionesArray = new string[1];
-                oracionesArray[0] = oraciones[0];
-                oraciones = oracionesArray;
-            }
-            // Crea una lista para las oraciones con la primera letra mayuscula
-            listaOracionesMayus = new List<string>();
 
-            // Se recorre cada oracion
-            foreach (string oracion in oraciones)
+                string[] oraciones = cadena.Trim().Split(';', '.');
+                if (oraciones[oraciones.Length - 1] == "")
+                {
+                    string[] oracionesArray = new string[1];
+                    oracionesArray[0] = oraciones[0];
+                    oraciones = oracionesArray;
+                }
+                // Crea una lista para las oraciones con la primera letra mayuscula
+                listaOracionesMayus = new List<string>();
+
+                // Se recorre cada oracion
+                foreach (string oracion in oraciones)
+                {
+                    // Se remueven espacios al inicio y final
+                    string oracionTrimmed = oracion.Trim();
+
+                    // Se divide la oracion en palabras
+                    string[] palabras = oracionTrimmed.Split(' ', ',');
+
+                    // Se verifica si la primera palabra es de conjunción
+                    if (EsConjuncion(palabras[0]) == true && oracionTrimmed.Contains(','))
+                    {
+                        //Se remueve la palabra de conjuncion y se elimina la coma.
+                        string oracionSinConjuncion = oracionTrimmed.Substring(palabras[0].Length + 1).Trim();
+
+                        //Se coloca en mayuscula la primera letra
+                        string oracionMayus = char.ToUpper(oracionSinConjuncion[0]) + oracionSinConjuncion.Substring(1);
+
+                        //Añade oracion a la lista
+                        listaOracionesMayus.Add(oracionMayus);
+                    }
+                    else if (EsConjuncion(palabras[0]) == true)
+                    {
+                        //Se remueve la palabra de conjuncion.
+                        string oracionSinConjuncion = oracionTrimmed.Substring(palabras[0].Length).Trim();
+
+                        //Se coloca en mayuscula la primera letra
+                        string oracionMayus = char.ToUpper(oracionSinConjuncion[0]) + oracionSinConjuncion.Substring(1);
+
+                        //Añade oracion a la lista
+                        listaOracionesMayus.Add(oracionMayus);
+                    }
+                    else
+                    {
+                        //Se coloca en mayuscula la primera letra
+                        string oracionMayus = char.ToUpper(oracionTrimmed[0]) + oracionTrimmed.Substring(1);
+
+                        //Añade oracion a la lista
+                        listaOracionesMayus.Add(oracionMayus);
+                    }
+                }
+
+                AreaTextoOraciones.DataSource = listaOracionesMayus;
+            }
+            catch (Exception e)
             {
-                // Se remueven espacios al inicio y final
-                string oracionTrimmed = oracion.Trim();
-
-                // Se divide la oracion en palabras
-                string[] palabras = oracionTrimmed.Split(' ', ',');
-
-                // Se verifica si la primera palabra es de conjunción
-                if (EsConjuncion(palabras[0]) == true && oracionTrimmed.Contains(','))
-                {
-                    //Se remueve la palabra de conjuncion y se elimina la coma.
-                    string oracionSinConjuncion = oracionTrimmed.Substring(palabras[0].Length + 1).Trim();
-
-                    //Se coloca en mayuscula la primera letra
-                    string oracionMayus = char.ToUpper(oracionSinConjuncion[0]) + oracionSinConjuncion.Substring(1);
-
-                    //Añade oracion a la lista
-                    listaOracionesMayus.Add(oracionMayus);
-                }
-                else if (EsConjuncion(palabras[0]) == true)
-                {
-                    //Se remueve la palabra de conjuncion.
-                    string oracionSinConjuncion = oracionTrimmed.Substring(palabras[0].Length).Trim();
-
-                    //Se coloca en mayuscula la primera letra
-                    string oracionMayus = char.ToUpper(oracionSinConjuncion[0]) + oracionSinConjuncion.Substring(1);
-
-                    //Añade oracion a la lista
-                    listaOracionesMayus.Add(oracionMayus);
-                }
-                else
-                {
-                    //Se coloca en mayuscula la primera letra
-                    string oracionMayus = char.ToUpper(oracionTrimmed[0]) + oracionTrimmed.Substring(1);
-
-                    //Añade oracion a la lista
-                    listaOracionesMayus.Add(oracionMayus);
-                }
+                MessageBox.Show("Error", "AVISO", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            AreaTextoOraciones.DataSource = listaOracionesMayus;
         }
 
         private void ConversionOracionesComponentesLexicos()
@@ -423,13 +463,14 @@ namespace AppRevisionliteratura
         private void FrmLiteratura_Load(object sender, EventArgs e)
         {
             //Nombre propio
-            regexNombres = new Regex("[A-Z][a-z]");
+            regexNombres = new Regex("[A-Z][a-z]+");
             //Literales
             regexliterales = new Regex("[1-9]+");
             //Operadores
             regexOperadores = new Regex("\\?|\\¿|\\!|\\¡");
             //Delimitadores
             regexDelimitadores = new Regex("\\.|;|\\)|\\(|,|:");
+           
         }
     }
 

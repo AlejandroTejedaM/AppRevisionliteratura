@@ -14,7 +14,7 @@ namespace AppRevisionliteratura
 
 
         public string Type { get => _type; set => _type = value; }
-        public string Value { get => _value; set => _value = value; }
+        public string Value { get => _value; set => _value = value; } 
 
         public Token()
         {
