@@ -21,6 +21,7 @@ namespace AppRevisionliteratura
         string[] Conjunciones;
         List<string> componentesOraciones = new List<string>();
         List<string> listaOracionesMayus;
+        List<string> listaOracionesMayusDelimitadores;
         List<List<Token>> listComponentesLexicos;
         List<string> listaReglas;
         List<string> componentesLexicos = new List<string>();
@@ -46,7 +47,7 @@ namespace AppRevisionliteratura
         public FrmLiteratura()
         {
             InitializeComponent();
-
+            this.CenterToScreen();
             Articulos = new string[] { "la", "el", "los", "las", "un", "una", "unos", "unas" };
 
             Pronombres = new string[] { "yo", "tú", "él", "ella","ellos","ellas", "nosotros", "vosotros", "ellos", "ellas", "ustedes",
@@ -57,19 +58,19 @@ namespace AppRevisionliteratura
             "bien", "ya que", "por lo tanto", "entonces", "así que",
             "por eso", "porque", "pues", "aunque", "si bien",
             "mientras que", "antes", "después", "además", "incluso",
-            "además de", "a pesar de", "con tal de que", "para que","en"};
+            "además de", "a pesar de", "con tal de que", "para que","en", "a","también"};
 
             Sustantivos = new string[] { "abuelita", "caperucita", "lobo", "leñador", "bosque", "cabaña",
             "capa", "canasta", "camino", "flores", "árboles", "ramas", "ojos", "orejas",
             "dientes", "colmillos", "garras", "ventana", "cama", "silla", "sendero",
             "picnic", "pasto", "patas", "nariz", "sol", "nubes", "hacha", "chimenea", "niña", "casa", "pinos","lago","gorro","moño", "cobija",
-                "mallas", "babero", "mandil", "mantel", "arbustos", "tejado", "puerta","cielo"};
+                "mallas", "babero", "mandil", "mantel", "arbustos", "tejado", "puerta","cielo", "hambre", "comida"};
 
             Adjetivos = new string[] { "colorido", "caprichoso", "infantil", "juguetón", "alegre", "soleado",
             "pacífico", "pintoresco", "rural", "idílico", "agradable", "encantador", "bucólico", "relajante",
             "tranquilo", "nostálgico", "romántico", "pastoral", "divertida", "caricaturesca", "festivo", "vibrante",
             "animado", "sereno", "jubiloso", "acogedor", "exuberante", "armonioso", "resplandeciente", "sugestivo",
-            "radiante", "plácido", "sosegado", "risueño", "paradisíaco","feroz","valiente","asustando","asustadas","mucho", "muchas","poco","poquito", "azul"};
+            "radiante", "plácido", "sosegado", "risueño", "paradisíaco","feroz","valiente","asustando","asustadas","mucho","muchos","mucha", "muchas","poco","poquito", "azul", "hambriento"};
 
             Adverbios = new string[] { "rápidamente", "sigilosamente", "astutamente",
             "dulcemente", "cautamente", "gentilmente", "bruscamente", "hábilmente",
@@ -88,7 +89,7 @@ namespace AppRevisionliteratura
             Verbos = new string[] { "ir", "encontrar", "hablar", "comer", "llegar", "abrir",
              "correr", "salvar", "asustar", "ver", "vestir", "dormir", "engañar",
              "caminar", "preguntar", "recoger", "llevar", "llamar", "poner", "decir", "come","camina","salva","encuentra,","llega",
-             "abre","pregunta","asusta","va"};
+             "abre","pregunta","asusta","va","ve","vemos","lleva", "llevas"};
 
             richTextBox1.KeyDown += RichTextBox1_KeyDown;
 
@@ -187,7 +188,7 @@ namespace AppRevisionliteratura
             {
                 MessageBox.Show("Error", "AVISO", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
+        }   
 
         private void AnalisisReglas()
         {
@@ -338,57 +339,83 @@ namespace AppRevisionliteratura
 
             try
             {
-
-                string[] oraciones = cadena.Trim().Split(';', '.');
-                if (oraciones[oraciones.Length - 1] == "")
-                {
-                    string[] oracionesArray = new string[1];
-                    oracionesArray[0] = oraciones[0];
-                    oraciones = oracionesArray;
-                }
+                string[] oraciones = Regex.Split(cadena.Trim(), "([.,;])");
+                
+                //if (oraciones[oraciones.Length - 1] == "")
+                //{
+                //    string[] oracionesArray = new string[1];
+                //    oracionesArray[0] = oraciones[0];
+                //    oraciones = oracionesArray;
+                //}
                 // Crea una lista para las oraciones con la primera letra mayuscula
                 listaOracionesMayus = new List<string>();
-
+                listaOracionesMayusDelimitadores = new List<string>();
                 // Se recorre cada oracion
                 foreach (string oracion in oraciones)
                 {
-                    // Se remueven espacios al inicio y final
-                    string oracionTrimmed = oracion.Trim();
-
-                    // Se divide la oracion en palabras
-                    string[] palabras = oracionTrimmed.Split(' ', ',');
-
-                    // Se verifica si la primera palabra es de conjunción
-                    if (EsConjuncion(palabras[0]) == true && oracionTrimmed.Contains(','))
+                    if (string.IsNullOrWhiteSpace(oracion)|| esDelimitador(oracion))
                     {
-                        //Se remueve la palabra de conjuncion y se elimina la coma.
-                        string oracionSinConjuncion = oracionTrimmed.Substring(palabras[0].Length + 1).Trim();
 
-                        //Se coloca en mayuscula la primera letra
-                        string oracionMayus = char.ToUpper(oracionSinConjuncion[0]) + oracionSinConjuncion.Substring(1);
-
-                        //Añade oracion a la lista
-                        listaOracionesMayus.Add(oracionMayus);
-                    }
-                    else if (EsConjuncion(palabras[0]) == true)
-                    {
-                        //Se remueve la palabra de conjuncion.
-                        string oracionSinConjuncion = oracionTrimmed.Substring(palabras[0].Length).Trim();
-
-                        //Se coloca en mayuscula la primera letra
-                        string oracionMayus = char.ToUpper(oracionSinConjuncion[0]) + oracionSinConjuncion.Substring(1);
-
-                        //Añade oracion a la lista
-                        listaOracionesMayus.Add(oracionMayus);
                     }
                     else
                     {
-                        //Se coloca en mayuscula la primera letra
-                        string oracionMayus = char.ToUpper(oracionTrimmed[0]) + oracionTrimmed.Substring(1);
+                        // Se remueven espacios al inicio y final
+                        string oracionTrimmed = oracion.Trim();
 
-                        //Añade oracion a la lista
-                        listaOracionesMayus.Add(oracionMayus);
+                        // Se divide la oracion en palabras
+                        string[] palabras = oracionTrimmed.Split(' ', ',');
+
+                        // Se verifica si la primera palabra es de conjunción
+                        if (EsConjuncion(palabras[0]) == true)
+                        {
+                            if (oracionTrimmed.Contains(','))
+                            {
+                                //Se remueve la palabra de conjuncion y se elimina la coma.
+                                string oracionSinConjuncion = oracionTrimmed.Substring(palabras[0].Length + 1).Trim();
+
+                                //Se coloca en mayuscula la primera letra
+                                string oracionMayus = char.ToUpper(oracionSinConjuncion[0]) + oracionSinConjuncion.Substring(1);
+
+                                //Añade oracion a la lista
+                                listaOracionesMayus.Add(oracionMayus);
+                            }
+                            else
+                            {
+                                //Se remueve la palabra de conjuncion y se elimina la coma.
+                                string oracionSinConjuncion = oracionTrimmed.Substring(palabras[0].Length).Trim();
+
+                                //Se coloca en mayuscula la primera letra
+                                if (oracionSinConjuncion.Length > 1)
+                                {
+                                    string oracionMayus = char.ToUpper(oracionSinConjuncion[0]) + oracionSinConjuncion.Substring(1);
+                                    listaOracionesMayus.Add(oracionMayus);
+                                }
+                                
+                                //Añade oracion a la lista
+                            }
+                            
+                        }
+                        else if (EsConjuncion(palabras[0]) == true)
+                        {
+                            //Se remueve la palabra de conjuncion.
+                            string oracionSinConjuncion = oracionTrimmed.Substring(palabras[0].Length).Trim();
+
+                            //Se coloca en mayuscula la primera letra
+                            string oracionMayus = char.ToUpper(oracionSinConjuncion[0]) + oracionSinConjuncion.Substring(1);
+
+                            //Añade oracion a la lista
+                            listaOracionesMayus.Add(oracionMayus);
+                        }
+                        else
+                        {
+                            //Se coloca en mayuscula la primera letra
+                            string oracionMayus = char.ToUpper(oracionTrimmed[0]) + oracionTrimmed.Substring(1);
+
+                            //Añade oracion a la lista
+                            listaOracionesMayus.Add(oracionMayus);
+                        }
                     }
+                    
                 }
 
                 AreaTextoOraciones.DataSource = listaOracionesMayus;
@@ -407,55 +434,68 @@ namespace AppRevisionliteratura
             foreach (string oraciones in listaOracionesMayus)
             {
                 List<Token> componenteLexico = new List<Token>();
-                foreach (string palabraOracion in oraciones.Split(' '))
+                ;
+                foreach (string palabraOracion in Regex.Split(oraciones, "([.,;()¿?¡!\\ ])"))
                 {
-                    string palabra = palabraOracion;
-                    if (palabra.Contains('?') || palabra.Contains('!') || palabra.Contains('¿') || palabra.Contains('¡'))
+                    if (String.IsNullOrWhiteSpace(palabraOracion)|| String.IsNullOrEmpty(palabraOracion))
                     {
-                        palabra = palabra.Replace("¿", "");
-                        palabra = palabra.Replace("?", "");
-                        palabra = palabra.Replace("¡", "");
-                        palabra = palabra.Replace("!", "");
+                        
                     }
-                    string tipo = "desconocido";
-                    if (EsArticulo(palabra) == true)
+                    else
                     {
-                        tipo = "Artículo";
+                        string palabra = palabraOracion.ToLower();
+                        //if (palabra.Contains('?') || palabra.Contains('!') || palabra.Contains('¿') || palabra.Contains('¡'))
+                        //{
+                        //    palabra = palabra.Replace("¿", "");
+                        //    palabra = palabra.Replace("?", "");
+                        //    palabra = palabra.Replace("¡", "");
+                        //    palabra = palabra.Replace("!", "");
+                        //}
+                        string tipo = "desconocido";
+                        if (EsArticulo(palabra) == true)
+                        {
+                            tipo = "Artículo";
+                        }
+                        if (EsPronombre(palabra) == true)
+                        {
+                            tipo = "Pronombre";
+                        }
+                        if (EsConjuncion(palabra) == true)
+                        {
+                            tipo = "Conjunción";
+                        }
+                        if (EsSustantivo(palabra) == true)
+                        {
+                            tipo = "Sustantivo";
+                        }
+                        if (EsAdjetivo(palabra) == true)
+                        {
+                            tipo = "Adjetivo";
+                        }
+                        if (EsAdverbio(palabra) == true)
+                        {
+                            tipo = "Adverbio";
+                        }
+                        if (EsVerbo(palabra) == true)
+                        {
+                            tipo = "Verbo";
+                        }
+                        if (esNombrePropio(palabra) == true)
+                        {
+                            tipo = "Nombre propio";
+                        }
+                        if(esOperador(palabra) == true)
+                        {
+                            tipo = "Delimitador";
+                        }
+                        Token token = new Token()
+                        {
+                            Type = tipo,
+                            Value = palabra
+                        };
+                        //La caperucita camina mucho en el bosque. El lobo feroz tiene hambre; pero, la caperucita lleva mucha comida. ¿El lobo come mucho?
+                        componenteLexico.Add(token);
                     }
-                    if (EsPronombre(palabra) == true)
-                    {
-                        tipo = "Pronombre";
-                    }
-                    if (EsConjuncion(palabra) == true)
-                    {
-                        tipo = "Conjunción";
-                    }
-                    if (EsSustantivo(palabra) == true)
-                    {
-                        tipo = "Sustantivo";
-                    }
-                    if (EsAdjetivo(palabra) == true)
-                    {
-                        tipo = "Adjetivo";
-                    }
-                    if (EsAdverbio(palabra) == true)
-                    {
-                        tipo = "Adverbio";
-                    }
-                    if (EsVerbo(palabra) == true)
-                    {
-                        tipo = "Verbo";
-                    }
-                    if (esNombrePropio(palabra) == true)
-                    {
-                        tipo = "Nombre propio";
-                    }
-                    Token token = new Token()
-                    {
-                        Type = tipo,
-                        Value = palabra
-                    };
-                    componenteLexico.Add(token);
                 }
                 listComponentesLexicos.Add(componenteLexico);
             }
