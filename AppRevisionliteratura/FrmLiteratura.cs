@@ -129,7 +129,8 @@ namespace AppRevisionliteratura
           "paz", "pintoresco", "plácido", "precioso", "primaveral", "prístino", "radiante", "refinado", "relajante",
           "resplandeciente", "revigorizante", "rico", "sagrado", "seductor", "sereno", "sincero", "sin igual", "soberbio",
           "solemne", "sublime", "suntuoso", "superlativo", "supremo", "teatral", "tesoro", "tintineante", "tranquilo",
-          "trascendental", "único", "venturoso", "vibrante", "vívido", "volátil", "voluptuoso", "zen", "hambriento", "muchas","muchos","mucha"};
+          "trascendental", "único", "venturoso", "vibrante", "vívido", "volátil", "voluptuoso", "zen", "hambriento", "muchas","muchos","mucha"
+            ,"rojo","negro","blanco","naranja","amarillo","verde","cafe","azul","morado","rosa","violeta","purpura","gris"};
 
             Adverbios = new string[] { "rápidamente", "sigilosamente", "astutamente",
             "dulcemente", "cautamente", "gentilmente", "bruscamente", "hábilmente",
