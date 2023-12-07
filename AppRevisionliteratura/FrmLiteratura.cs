@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -35,6 +38,8 @@ namespace AppRevisionliteratura
 
         Regex adverbiosNegativos;
 
+        Regex regexOracionesInterrogativas;
+
 
 
         public FrmLiteratura()
@@ -56,21 +61,29 @@ namespace AppRevisionliteratura
             Sustantivos = new string[] { "abuelita", "caperucita", "lobo", "leñador", "bosque", "cabaña",
             "capa", "canasta", "camino", "flores", "árboles", "ramas", "ojos", "orejas",
             "dientes", "colmillos", "garras", "ventana", "cama", "silla", "sendero",
-            "picnic", "pasto", "patas", "nariz", "sol", "nubes", "hacha", "chimenea", "niña", "casa", "pinos",              "lago","gorro","moño", "cobija", "mallas", "babero", "mandil", "mantel", "arbustos", "tejado", "puerta",            "cielo"};
+            "picnic", "pasto", "patas", "nariz", "sol", "nubes", "hacha", "chimenea", "niña", "casa", "pinos","lago","gorro","moño", "cobija",
+                "mallas", "babero", "mandil", "mantel", "arbustos", "tejado", "puerta","cielo"};
 
             Adjetivos = new string[] { "colorido", "caprichoso", "infantil", "juguetón", "alegre", "soleado",
             "pacífico", "pintoresco", "rural", "idílico", "agradable", "encantador", "bucólico", "relajante",
             "tranquilo", "nostálgico", "romántico", "pastoral", "divertida", "caricaturesca", "festivo", "vibrante",
             "animado", "sereno", "jubiloso", "acogedor", "exuberante", "armonioso", "resplandeciente", "sugestivo",
-            "radiante", "plácido", "sosegado", "risueño", "paradisíaco","feroz","valiente","asustando","asustadas",             "mucho", "muchas","poco","poquito", "azul"};
+            "radiante", "plácido", "sosegado", "risueño", "paradisíaco","feroz","valiente","asustando","asustadas","mucho", "muchas","poco","poquito", "azul"};
 
             Adverbios = new string[] { "rápidamente", "sigilosamente", "astutamente",
             "dulcemente", "cautamente", "gentilmente", "bruscamente", "hábilmente",
             "furiosamente", "ingenuamente","temprano", "pronto", "nunca", "siempre",
             "lentamente", "velozmente", "despacio", "urgentemente", "sorpresivamente",
             "furtivamente","lejos", "profundamente", "aquí", "allí", "cerca",
-            "adentro", "afuera", "mansamente", "tiernamente", "furtivamente","tranquilamente","tiene","jamás","nada","no","tampoco"};
-            AdverbiosNegativos = new string[] {"no","nunca"};
+            "adentro", "afuera", "mansamente", "tiernamente", "furtivamente","tranquilamente",
+            "tiene","jamás","nada","no","tampoco","nunca", "jamás", "tampoco", "jamas", "ninguna vez",
+            "ningún día", "ningún momento", "ningún lugar", "ningún modo", "ningún caso",
+            "ningún modo", "nunca más", "nunca jamás", "ningún tanto", "en absoluto",
+            "en ningún caso", "de ningún modo", "de ninguna manera", "en ninguna parte",
+            "en ningún momento", "en ningún sentido", "en ninguna circunstancia",
+            "en ninguna medida", "en ningún evento", "en ninguna situación"};
+
+            AdverbiosNegativos = new string[] { "no", "nunca" };
             Verbos = new string[] { "ir", "encontrar", "hablar", "comer", "llegar", "abrir",
              "correr", "salvar", "asustar", "ver", "vestir", "dormir", "engañar",
              "caminar", "preguntar", "recoger", "llevar", "llamar", "poner", "decir", "come","camina","salva","encuentra,","llega",
@@ -78,7 +91,7 @@ namespace AppRevisionliteratura
 
             richTextBox1.KeyDown += RichTextBox1_KeyDown;
 
-            
+
         }
         #region Comprobadores
         private bool EsArticulo(String cadena)
@@ -177,46 +190,62 @@ namespace AppRevisionliteratura
 
         private void AnalisisReglas()
         {
-           
-            string CadenaMostrar = "Erronea";
-            listaReglas = new List<string>();
+            List<string> resultados = new List<string>();
+
             foreach (var item in listaOracionesMayus)
             {
-               string[] Aux = item.Split(" ");
+                string[] Aux = item.Split(" ");
+
+                bool esOracionInterrogativa = false;
+                bool esOracionSimple = false;
+                bool esOracionExclamativa = false;
 
                 foreach (var palabra in Aux)
                 {
-                    if (adverbiosNegativos.IsMatch(palabra))
+                    if (regexOracionesInterrogativas.IsMatch(palabra))
                     {
-                        CadenaMostrar = "Oracion simple";
-                        MessageBox.Show(CadenaMostrar);
-
+                        esOracionInterrogativa = true;
                     }
+                    else if (Adverbios.Contains(palabra))
+                    {
+                        esOracionSimple = true;
+                    }
+                 
                 }
-                
+
               
+                if (esOracionInterrogativa)
+                {
+                    resultados.Add("Oración interrogativa");
+                }
+                else if (esOracionSimple)
+                {
+                    resultados.Add("Oración simple");
+                }
+                else if (esOracionExclamativa)
+                {
+                    resultados.Add("Oración exclamativa");
+                }
+                else
+                {
+                    resultados.Add("Oración enunciativa");
+                }
             }
 
+        
+            AreaTextoReglas.DataSource = resultados;
 
         }
 
 
-        private string separar(string componente)
-        {
-            //if(!string.IsNullOrEmpty(componente))
-            //{
-            //    Adjetivos+Sustantivo+Adverbio
-            //}
-            //else
-            //{
-            //    return "";
-            //}
-            return "";
-        }
- 
+        
+
+
+
+
         private void ComprobarTipoPalabraReservada()
         {
-            
+
             string cadenaTrimmed = cadena.Trim(); char[] delimitadores = { ' ', '.', ';', '(', ')', ',' };
 
             listaSeparada = Regex.Split(cadena, "([.,;()¿?¡!\\ ])");
@@ -264,7 +293,8 @@ namespace AppRevisionliteratura
                 {
                     string cadenaActual = "Palabra reservada: " + palabra + " (Verbo)";
                     listaCadenasTipo.Add(cadenaActual);
-                }else if (esNombrePropio(palabra) == true )
+                }
+                else if (esNombrePropio(palabra) == true)
                 {
                     string cadenaActual = "Identificador: " + palabra + " (Nombre propio)";
                     listaCadenasTipo.Add(cadenaActual);
@@ -455,9 +485,8 @@ namespace AppRevisionliteratura
             regexOperadores = new Regex("\\?|\\¿|\\!|\\¡");
             //Delimitadores
             regexDelimitadores = new Regex("\\.|;|\\)|\\(|,|:");
+            regexOracionesInterrogativas = new Regex ("[¿][a-zA-Z]*");
 
-            adverbiosNegativos = new Regex("no|nunca");
-           
         }
     }
 
