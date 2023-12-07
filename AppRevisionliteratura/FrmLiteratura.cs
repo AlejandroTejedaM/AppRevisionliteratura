@@ -60,17 +60,76 @@ namespace AppRevisionliteratura
             "mientras que", "antes", "después", "además", "incluso",
             "además de", "a pesar de", "con tal de que", "para que","en", "a","también"};
 
-            Sustantivos = new string[] { "abuelita", "caperucita", "lobo", "leñador", "bosque", "cabaña",
-            "capa", "canasta", "camino", "flores", "árboles", "ramas", "ojos", "orejas",
-            "dientes", "colmillos", "garras", "ventana", "cama", "silla", "sendero",
-            "picnic", "pasto", "patas", "nariz", "sol", "nubes", "hacha", "chimenea", "niña", "casa", "pinos","lago","gorro","moño", "cobija",
-                "mallas", "babero", "mandil", "mantel", "arbustos", "tejado", "puerta","cielo", "hambre", "comida"};
+            Sustantivos = new string[] { "abuela", "lobo", "leñador", "vecinos","caperucita", "aldeanos", "árboles", "arbustos", "hojas", "rocas", "riachuelo",
+          "capa", "canasta", "cuchillo", "mochila", "sombrero", "caja", "cabaña", "puente", "senda", "prado", "pueblo", "torre",
+          "sonrisa", "mirada", "cejas", "rostro", "ojos", "manos", "pies", "piel", "cabeza", "brazos", "luna", "estrellas",
+          "sombras", "silencio", "brisa", "flores", "joyas", "encaje", "diadema", "broche", "pastel", "miel", "pan", "mermelada",
+          "sopa", "alegría", "temor", "asombro", "expectación", "gratitud", "abuelita", "niña", "casa", "pinos", "lago", "gorro",
+          "moño", "cobija", "mallas", "babero", "mandil", "mantel", "arbustos", "tejado", "puerta", "cielo", "enigma", "candado",
+          "clave", "eco", "suspense", "susurro", "huella", "túnel", "rescate", "deseo", "espina", "hechizo", "misterio",
+          "tormenta", "hechicero", "destino", "suspiro", "secreto", "promesa", "despertar", "campana", "piedra", "leyenda",
+          "revelación", "sendero", "adivinanza", "espejismo", "camuflaje", "resplandor", "poción", "portal", "refugio",
+          "oráculo", "encrucijada", "máscara", "pasadizo", "ocaso", "bóveda", "visión", "calabaza", "ruina", "lamento",
+          "trampa", "encanto", "antorcha", "princesa", "embrujo", "cosecha", "cántico", "criatura", "estirpe", "velo", "aroma",
+          "canto", "travesía", "edén", "cometa", "señal", "alcoba", "maravilla", "espejo", "jardín", "quimera", "llave",
+          "suspiro", "hojarasca", "guirnalda", "confusión", "juramento", "caricia", "ascuas", "tronco", "risueño", "ceniza",
+          "pasión", "vértigo", "eco", "senda", "rayo", "brújula", "ruiseñor", "manantial", "caballero", "reliquia", "abrigo",
+          "melodía", "piedra", "roble", "orquídea", "acróbata", "galaxia", "cenit", "bisonte", "aurora", "velada", "esfera",
+          "acantilado", "crepúsculo", "canto", "orilla", "candil", "despertar", "luz", "quimera", "lamento", "torreón",
+          "desvelo", "serenata", "arcadia", "murmullo", "risa", "ecuación", "serenidad", "bohemia", "soledad", "encuentro",
+          "adagio", "poesía", "delirio", "susurro", "capricho", "conjuro", "invierno", "otoño", "travesía", "alquimia",
+          "confidencia", "dulzura", "paisaje", "peregrino", "danza", "sueño", "baluarte", "abismo", "fragancia", "quijote",
+          "ascua", "alféizar", "ímpetu", "antorcha", "pradera", "candado", "mirador", "trébol", "amaranto", "selva", "escenario",
+          "primavera", "verano", "invierno", "otoño", "velo", "espejismo", "marfil", "selene", "simetría", "sinfonía", "serenata",
+          "rumor", "silueta", "refugio", "canto", "paisaje", "delirio", "galaxia", "bisonte", "esmeralda", "sombra", "despedida",
+          "retorno", "ceniza", "suspiro", "alba", "espejismo", "sinfonía", "camino", "eco", "libro", "página", "caligrafía",
+          "conjuro", "desvanecimiento", "pétalo", "candor", "rumor", "lamento", "antorcha", "atmósfera", "rocío", "sendero",
+          "embrujo", "galanteo", "silencio", "arpegio", "crepúsculo", "ventana", "sueño", "bosque", "desvelo", "encuentro",
+          "hechicero", "romance", "corazón", "rocío", "maravilla", "encrucijada", "luz", "murmullo", "estrella", "bruma",
+          "trébol", "susurro", "silueta", "calidez", "enigma", "pétalo", "paz", "caricia", "cometa", "emoción", "refugio",
+          "pasión", "encanto", "paraje", "edén", "rincón", "hojarasca", "huella", "lamento", "deseo", "ascuas", "visión",
+          "rincón", "canto", "velo", "arcadia", "fragancia", "conjuro", "hechizo", "sendero", "adivinanza", "misterio",
+          "mirador", "travesía", "efímero", "revelación", "espejismo", "marfil", "silueta", "destello", "refugio", "esencia",
+          "pasión", "calidez", "amuleto", "resplandor","encrucijada", "añoranza", "melodía", "caricia", "bosque", "rumor", "emoción", "conjuro", "hechizo", "travesía",
+          "sinfonía", "canto", "anochecer", "rincón", "velada", "alba", "susurro", "encuentro", "espejismo", "travesía", "caricia",
+          "pétalo", "candor", "resplandor", "destino", "paraje", "encrucijada", "sendero", "rocío", "encanto", "bóveda", "hechizo",
+          "esencia", "sendero", "resplandor", "crepúsculo", "estrofa", "caricia", "encuentro", "edén", "rincón", "conjuro", "arcadia",
+          "velo", "sueño", "emoción", "suspiro", "destino", "encanto", "rincón", "bóveda", "resplandor", "sueño", "hechizo", "sendero",
+          "susurro", "canto", "alba", "espejismo", "caricia", "conjuro", "encrucijada", "velada", "fragancia", "destino", "rumor",
+          "encanto", "resplandor", "arpegio", "espejismo", "destino", "caricia", "encuentro", "bóveda", "hechizo", "susurro", "velada",
+          "paraje", "encanto", "fragancia", "calidez", "suspiro", "canto", "arcadia", "espejismo", "sendero", "resplandor", "rumor",
+          "estrofa", "aroma", "hechizo", "destino", "sueño", "alba", "paraje", "bóveda", "resplandor", "rumor", "encanto", "canto",
+          "espejismo", "destino", "velada", "susurro", "arcadia", "caricia", "encanto", "calidez", "resplandor", "susurro", "sueño",
+          "alba", "bóveda", "fragancia", "destino", "canto", "rumor", "hechizo", "velada", "aroma", "resplandor", "susurro", "arcadia",
+          "paraje", "caricia", "encanto", "rumor", "espejismo", "estrofa", "bóveda", "sueño", "velada", "susurro", "destino", "rumor","comida",
+          "resplandor", "arpegio", "hambre","alimento","alimentos"};
 
             Adjetivos = new string[] { "colorido", "caprichoso", "infantil", "juguetón", "alegre", "soleado",
-            "pacífico", "pintoresco", "rural", "idílico", "agradable", "encantador", "bucólico", "relajante",
-            "tranquilo", "nostálgico", "romántico", "pastoral", "divertida", "caricaturesca", "festivo", "vibrante",
-            "animado", "sereno", "jubiloso", "acogedor", "exuberante", "armonioso", "resplandeciente", "sugestivo",
-            "radiante", "plácido", "sosegado", "risueño", "paradisíaco","feroz","valiente","asustando","asustadas","mucho","muchos","mucha", "muchas","poco","poquito", "azul", "hambriento"};
+          "pacífico", "pintoresco", "rural", "idílico", "agradable", "encantador", "bucólico", "relajante",
+          "tranquilo", "nostálgico", "romántico", "pastoral", "divertida", "caricaturesca", "festivo", "vibrante",
+          "animado", "sereno", "jubiloso", "acogedor", "exuberante", "armonioso", "resplandeciente", "sugestivo",
+          "radiante", "plácido", "sosegado", "risueño", "paradisíaco", "feroz", "valiente", "asustando", "asustadas",
+          "mucho", "muchas", "poco", "poquito", "azul", "majestuoso", "apacible", "fascinante", "deslumbrante",
+          "aventurero", "sereno", "mágico", "atractivo", "sugestivo", "hermoso", "impresionante", "divino",
+          "espléndido", "encantador", "soñador", "maravilloso", "deslumbrante", "deslumbrador", "eufórico",
+          "intrigante", "sofisticado", "cautivador", "glamoroso", "elegante", "espectacular", "dramático", "radiante",
+          "moderno", "clásico", "vintage", "fresco", "vivo", "intrépido", "glorioso", "legendario", "sosegado",
+          "silencioso", "efervescente", "sutil", "singular", "poderoso", "fascinante", "hipnótico", "esotérico",
+          "deslumbrador", "místico", "fabuloso", "genuino", "imponente", "misterioso", "pintoresco", "sublime",
+          "majestuoso", "soberbio", "precioso", "delicioso", "eufórico", "angelical", "centelleante", "iridiscente",
+          "divertido", "vibrante", "deslumbrante", "espectacular", "emocionante", "impresionante", "deslumbrante",
+          "etéreo", "cálido", "eterno", "extraordinario", "fantástico", "surrealista", "intrépido", "céfiro",
+          "luminoso", "lúdico", "efervescente", "volátil", "sereno", "divino", "excelente", "exquisito", "exótico",
+          "extático", "fastuoso", "fascinante", "fenomenal", "festivo", "flamante", "florido", "fuerte", "fulgurante",
+          "fulguroso", "fúlgido", "genuino", "glamoroso", "glorioso", "grandioso", "grácil", "grato", "hilariante",
+          "híper", "ideal", "ídolo", "ilustre", "inigualable", "inmaculado", "iridiscente", "joya", "jovial", "jubiloso",
+          "juguetón", "lindo", "luminoso", "lúdico", "lustroso", "majestuoso", "maravilloso", "mágico", "meticuloso",
+          "mítico", "moderno", "momento", "multicolor", "natural", "noble", "nostálgico", "notable", "novedoso", "nubil",
+          "nuevo", "numinoso", "oasis", "ocasión", "óptimo", "opulento", "oscilante", "ostentoso", "paradisiaco",
+          "paz", "pintoresco", "plácido", "precioso", "primaveral", "prístino", "radiante", "refinado", "relajante",
+          "resplandeciente", "revigorizante", "rico", "sagrado", "seductor", "sereno", "sincero", "sin igual", "soberbio",
+          "solemne", "sublime", "suntuoso", "superlativo", "supremo", "teatral", "tesoro", "tintineante", "tranquilo",
+          "trascendental", "único", "venturoso", "vibrante", "vívido", "volátil", "voluptuoso", "zen", "hambriento", "muchas","muchos","mucha"};
 
             Adverbios = new string[] { "rápidamente", "sigilosamente", "astutamente",
             "dulcemente", "cautamente", "gentilmente", "bruscamente", "hábilmente",
@@ -188,7 +247,7 @@ namespace AppRevisionliteratura
             {
                 MessageBox.Show("Error", "AVISO", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }   
+        }
 
         private void AnalisisReglas()
         {
@@ -216,13 +275,13 @@ namespace AppRevisionliteratura
                     {
                         if (regexOracionesExclamativas.IsMatch(palabra))
                         {
-                            esOracionExclamativa = true;   
+                            esOracionExclamativa = true;
                         }
                     }
-                 
+
                 }
 
-              
+
                 if (esOracionInterrogativa)
                 {
                     resultados.Add("Oración interrogativa");
@@ -241,13 +300,13 @@ namespace AppRevisionliteratura
                 }
             }
 
-        
+
             AreaTextoReglas.DataSource = resultados;
 
         }
 
 
-        
+
 
 
 
@@ -340,7 +399,7 @@ namespace AppRevisionliteratura
             try
             {
                 string[] oraciones = Regex.Split(cadena.Trim(), "([.,;])");
-                
+
                 //if (oraciones[oraciones.Length - 1] == "")
                 //{
                 //    string[] oracionesArray = new string[1];
@@ -353,7 +412,7 @@ namespace AppRevisionliteratura
                 // Se recorre cada oracion
                 foreach (string oracion in oraciones)
                 {
-                    if (string.IsNullOrWhiteSpace(oracion)|| esDelimitador(oracion))
+                    if (string.IsNullOrWhiteSpace(oracion) || esDelimitador(oracion))
                     {
 
                     }
@@ -390,10 +449,10 @@ namespace AppRevisionliteratura
                                     string oracionMayus = char.ToUpper(oracionSinConjuncion[0]) + oracionSinConjuncion.Substring(1);
                                     listaOracionesMayus.Add(oracionMayus);
                                 }
-                                
+
                                 //Añade oracion a la lista
                             }
-                            
+
                         }
                         else if (EsConjuncion(palabras[0]) == true)
                         {
@@ -415,7 +474,7 @@ namespace AppRevisionliteratura
                             listaOracionesMayus.Add(oracionMayus);
                         }
                     }
-                    
+
                 }
 
                 AreaTextoOraciones.DataSource = listaOracionesMayus;
@@ -437,9 +496,9 @@ namespace AppRevisionliteratura
                 ;
                 foreach (string palabraOracion in Regex.Split(oraciones, "([.,;()¿?¡!\\ ])"))
                 {
-                    if (String.IsNullOrWhiteSpace(palabraOracion)|| String.IsNullOrEmpty(palabraOracion))
+                    if (String.IsNullOrWhiteSpace(palabraOracion) || String.IsNullOrEmpty(palabraOracion))
                     {
-                        
+
                     }
                     else
                     {
@@ -484,7 +543,7 @@ namespace AppRevisionliteratura
                         {
                             tipo = "Nombre propio";
                         }
-                        if(esOperador(palabra) == true)
+                        if (esOperador(palabra) == true)
                         {
                             tipo = "Delimitador";
                         }
@@ -533,7 +592,7 @@ namespace AppRevisionliteratura
             regexOperadores = new Regex("\\?|\\¿|\\!|\\¡");
             //Delimitadores
             regexDelimitadores = new Regex("\\.|;|\\)|\\(|,|:");
-            regexOracionesInterrogativas = new Regex ("[¿][a-zA-Z]*");
+            regexOracionesInterrogativas = new Regex("[¿][a-zA-Z]*");
             regexOracionesExclamativas = new Regex("[¡][a-zA-Z]*");
         }
     }
