@@ -39,6 +39,7 @@ namespace AppRevisionliteratura
         Regex adverbiosNegativos;
 
         Regex regexOracionesInterrogativas;
+        Regex regexOracionesExclamativas;
 
 
 
@@ -209,6 +210,13 @@ namespace AppRevisionliteratura
                     else if (Adverbios.Contains(palabra))
                     {
                         esOracionSimple = true;
+                    }
+                    else
+                    {
+                        if (regexOracionesExclamativas.IsMatch(palabra))
+                        {
+                            esOracionExclamativa = true;   
+                        }
                     }
                  
                 }
@@ -486,7 +494,7 @@ namespace AppRevisionliteratura
             //Delimitadores
             regexDelimitadores = new Regex("\\.|;|\\)|\\(|,|:");
             regexOracionesInterrogativas = new Regex ("[¿][a-zA-Z]*");
-
+            regexOracionesExclamativas = new Regex("[¡][a-zA-Z]*");
         }
     }
 
